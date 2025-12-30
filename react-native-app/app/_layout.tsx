@@ -1,16 +1,27 @@
-import { ThemeProvider } from "@/context/ThemeContext";
+import { ThemeProvider, useTheme } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthGate from "@/components/AuthGate";
 import { StatusBar } from "expo-status-bar";
 import { Slot } from "expo-router";
 
+
+const ThemeRoot = () => {
+  const { theme } = useTheme();
+  return (
+    <>
+      <StatusBar style={theme === "dark" ? "dark" : "light"} />
+      <Slot />
+    </>
+  )
+}
+
 export default function Layout() {
+
   return (
     <ThemeProvider>
       <AuthProvider>
         <AuthGate>
-          <StatusBar style="dark" />
-          <Slot />
+          <ThemeRoot />
         </AuthGate>
       </AuthProvider>
     </ThemeProvider>
