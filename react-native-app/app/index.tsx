@@ -1,10 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useRouter } from "expo-router";
-import { AuthContext } from "../context/AuthContext";
+import { useUser } from "../context/AuthContext";
 
 export default function Index() {
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading } = useUser();
   const router = useRouter();
 
   useEffect(() => {

@@ -1,18 +1,13 @@
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AuthContext } from "../../context/AuthContext";
 import * as SecureStore from "expo-secure-store";
-import { AxiosError, isAxiosError } from 'axios';
-import Alert from "../../components/ui/Alert";
 import { Link, useRouter } from "expo-router";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import api from "../../lib/api";
 import { useTheme } from "@/context/ThemeContext";
-
-interface LoginErrorData {
-  msg?: string;
-  success?: boolean;
-}
+import { useAlert } from "@/context/AlertContext";
+import { useUser } from "@/context/AuthContext";
+import ErrorCatch from "@/lib/error-catch";
 
 const Login = () => {
   const router = useRouter();
@@ -23,18 +18,18 @@ const Login = () => {
     email: string, password: string
   }>({ email: "", password: "" });
 
-  // alert data
-  const [alert, setAlert] = useState<{
-    message: string;
-    type: "success" | "error" | "warning" | "info";
-  } | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const { refreshAuth } = useContext(AuthContext);
+  // alert data
+  const { setAlert } = useAlert();
+
+  const { refreshAuth } = useUser();
 
   const handleLogin = async () => {
     if (!formData.email || !formData.password) {
       return setAlert({ message: "All fields are required", type: "error" });
     }
+    setLoading(true);
     try {
       const response = await api.post("/auth/login", formData);
       const res = await response.data;
@@ -47,97 +42,110 @@ const Login = () => {
       } else {
         setAlert({ message: res?.msg, type: "warning" });
       }
-    } catch (error: unknown) {
-      if (isAxiosError(error)) {
-        const axiosError = error as AxiosError<LoginErrorData>;
-        const serverMsg = axiosError.response?.data?.msg;
-
-        setAlert({
-          message: serverMsg || error.message || "Network Error",
-          type: "error"
-        });
-      } else {
-        setAlert({
-          message: error instanceof Error ? error.message : "An unexpected error occurred",
-          type: "error"
-        });
-      }
+    } catch (error) {
+      ErrorCatch(error, setAlert);
       // console.log(JSON.stringify(error, null, 2));
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-black justify-center px-6">
-      {/* Title */}
-      <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-        Welcome Back 👋
-      </Text>
-      <Text className="text-gray-500 dark:text-gray-400 mb-8">
-        Sign in to continue
-      </Text>
+    <SafeAreaView className="flex-1 bg-white dark:bg-black justify-center">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "padding"}
+        className="flex-1"
+      >
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingHorizontal: 24,
+            paddingVertical: 10,
+            justifyContent: "center"
+          }}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+          automaticallyAdjustKeyboardInsets={true}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Title */}
+          <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Welcome Back 👋
+          </Text>
+          <Text className="text-gray-500 dark:text-gray-400 mb-8">
+            Sign in to continue
+          </Text>
 
-      {/* Email Input */}
-      <View className="mb-4">
-        <Text className="text-gray-700 dark:text-gray-300 mb-1">Email</Text>
-        <TextInput
-          placeholder="Enter your email"
-          autoCapitalize="none"
-          onChangeText={(text) => setFormData((prev) => ({ ...prev, email: text }))}
-          keyboardType="email-address"
-          className="border border-gray-300 dark:border-gray-700
+          {/* Email Input */}
+          <View className="mb-4">
+            <Text className="text-gray-700 dark:text-gray-300 mb-1">Email</Text>
+            <TextInput
+              placeholder="Enter your email"
+              autoCapitalize="none"
+              onChangeText={(text) => setFormData((prev) => ({ ...prev, email: text }))}
+              keyboardType="email-address"
+              className="border border-gray-300 dark:border-gray-700
                  bg-white dark:bg-gray-900
                  text-gray-900 dark:text-white
                  rounded-lg px-4 py-3"
-          placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#4B5563"}
-        />
-      </View>
+              placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#4B5563"}
+            />
+          </View>
 
-      {/* Password Input */}
-      <View className="mb-6">
-        <Text className="text-gray-700 dark:text-gray-300 mb-1">Password</Text>
-        <TextInput
-          placeholder="Enter your password"
-          secureTextEntry
-          onChangeText={(text) => setFormData((prev) => ({ ...prev, password: text }))}
-          className="border border-gray-300 dark:border-gray-700
+          {/* Password Input */}
+          <View className="mb-6">
+            <Text className="text-gray-700 dark:text-gray-300 mb-1">Password</Text>
+            <TextInput
+              placeholder="Enter your password"
+              secureTextEntry
+              onChangeText={(text) => setFormData((prev) => ({ ...prev, password: text }))}
+              className="border border-gray-300 dark:border-gray-700
                  bg-white dark:bg-gray-900
                  text-gray-900 dark:text-white
                  rounded-lg px-4 py-3"
-          placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#4B5563"}
-        />
-      </View>
+              placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#4B5563"}
+            />
+          </View>
 
-      {/* Login Button */}
-      <Pressable onPress={handleLogin} className="bg-blue-600 dark:bg-blue-500 py-3 rounded-lg mb-6">
-        <Text className="text-white text-center font-semibold text-lg">
-          Login
-        </Text>
-      </Pressable>
-
-      {/* Sign up link */}
-      <View className="flex-row justify-center mt-6">
-        <Text className="text-gray-600 dark:text-gray-400">
-          Dont have an account?
-        </Text>
-        <Link href="/register" asChild>
-          <Pressable>
-            <Text className="ml-1 text-blue-600 dark:text-blue-400 font-semibold">
-              Create one
-            </Text>
+          {/* Login Button */}
+          <Pressable
+            onPress={handleLogin}
+            disabled={loading}
+            className={`py-3 rounded-lg mb-6 flex-row items-center justify-center ${loading
+              ? "bg-blue-400 dark:bg-blue-400"
+              : "bg-blue-600 dark:bg-blue-500"
+              }`}
+          >
+            {loading ? (
+              <>
+                <ActivityIndicator size="small" color="white" />
+                <Text className="text-white font-semibold text-lg ml-2">
+                  Logging in...
+                </Text>
+              </>
+            ) : (
+              <Text className="text-white font-semibold text-lg">
+                Login
+              </Text>
+            )}
           </Pressable>
-        </Link>
-      </View>
 
-      {/* alert box */}
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          position="top"
-          onClose={() => setAlert(null)}
-        />
-      )}
 
+          {/* Sign up link */}
+          <View className="flex-row justify-center mt-6">
+            <Text className="text-gray-600 dark:text-gray-400">
+              Dont have an account?
+            </Text>
+            <Link href="/register" asChild>
+              <Pressable>
+                <Text className="ml-1 text-blue-600 dark:text-blue-400 font-semibold">
+                  Create one
+                </Text>
+              </Pressable>
+            </Link>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

@@ -1,9 +1,9 @@
 import { useRouter, useSegments } from "expo-router";
-import { AuthContext } from "../context/AuthContext";
-import { useEffect, useContext } from "react";
+import { useUser } from "../context/AuthContext";
+import { useEffect } from "react";
 
 export default function AuthGate({ children, }: { children: React.ReactNode; }) {
-  const { isAuthenticated, loading } = useContext(AuthContext);
+  const { isAuthenticated, loading } = useUser();
   const segments = useSegments();
   const router = useRouter();
 

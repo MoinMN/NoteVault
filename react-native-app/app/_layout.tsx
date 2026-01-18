@@ -1,29 +1,22 @@
-import { ThemeProvider, useTheme } from "@/context/ThemeContext";
+import { InternetProvider } from "@/context/InternetProvider";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthGate from "@/components/AuthGate";
-import { StatusBar } from "expo-status-bar";
-import { Slot } from "expo-router";
-
-
-const ThemeRoot = () => {
-  const { theme } = useTheme();
-  return (
-    <>
-      <StatusBar style={theme === "dark" ? "dark" : "light"} />
-      <Slot />
-    </>
-  )
-}
+import RootSlot from "@/components/RootSlot";
+import { AlertProvider } from "@/context/AlertContext";
 
 export default function Layout() {
-
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <AuthGate>
-          <ThemeRoot />
-        </AuthGate>
-      </AuthProvider>
+      <InternetProvider>
+        <AuthProvider>
+          <AlertProvider>
+            <AuthGate>
+              <RootSlot />
+            </AuthGate>
+          </AlertProvider>
+        </AuthProvider>
+      </InternetProvider>
     </ThemeProvider>
   );
 }

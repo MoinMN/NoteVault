@@ -2,12 +2,10 @@ import { View, Text } from "react-native";
 import { useEffect } from "react";
 
 type AlertType = "success" | "error" | "warning" | "info";
-type AlertPosition = "top" | "center" | "bottom";
 
 interface AlertProps {
   message: string;
   type?: AlertType;
-  position?: AlertPosition;
   onClose: () => void;
   duration?: number;
 }
@@ -19,18 +17,11 @@ const alertStyles: Record<AlertType, string> = {
   info: "bg-blue-100 border-blue-500 text-blue-800",
 };
 
-const positionStyles: Record<AlertPosition, string> = {
-  top: "top-12",
-  center: "top-1/2 -translate-y-1/2",
-  bottom: "bottom-12",
-};
-
 export default function Alert({
   message,
   type = "info",
-  position = "top",
   onClose,
-  duration = 5000,
+  duration = 3000,
 }: AlertProps) {
   useEffect(() => {
     const timer = setTimeout(onClose, duration);
@@ -38,11 +29,12 @@ export default function Alert({
   }, [onClose, duration]);
 
   return (
-    <View className={`absolute left-4 right-4 ${positionStyles[position]}`}>
+    <View className="absolute top-14 w-full items-center z-50">
       <View
-        className={`border-l-4 p-4 rounded-lg ${alertStyles[type]} shadow`}
+        className={`border-l-4 p-3 rounded-md ${alertStyles[type]} shadow-md`}
+        style={{ minWidth: 200, maxWidth: '90%' }}
       >
-        <Text className="font-medium text-left">
+        <Text className="font-medium text-sm text-center">
           {message}
         </Text>
       </View>

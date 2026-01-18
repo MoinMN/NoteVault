@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useEffect, useState, ReactNode, useContext } from "react";
 import * as SecureStore from "expo-secure-store";
 import api from "../lib/api";
 
@@ -20,9 +20,9 @@ type Props = {
   children: ReactNode;
 };
 
-export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType
-);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+
+export const useUser = () => useContext(AuthContext);
 
 const TOKEN_KEY = "auth_token";
 

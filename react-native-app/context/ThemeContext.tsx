@@ -1,13 +1,12 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import { useColorScheme } from "nativewind";
 
-type ThemeType = "light" | "dark" | "system";
+type ThemeType = "light" | "dark";
 
 interface ThemeContextType {
   theme: ThemeType;
   setLight: () => void;
   setDark: () => void;
-  setSystem: () => void;
   toggleTheme: () => void;
 }
 
@@ -15,28 +14,14 @@ const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const [theme, setTheme] = useState<ThemeType>("system");
 
-  // init as system
+  // ensure system is used initially
   useEffect(() => {
     setColorScheme("system");
-    setTheme("system");
   }, []);
 
-  const setLight = () => {
-    setColorScheme("light");
-    setTheme("light");
-  };
-
-  const setDark = () => {
-    setColorScheme("dark");
-    setTheme("dark");
-  };
-
-  const setSystem = () => {
-    setColorScheme("system");
-    setTheme("system");
-  };
+  const setLight = () => setColorScheme("light");
+  const setDark = () => setColorScheme("dark");
 
   const toggleTheme = () => {
     if (colorScheme === "dark") setLight();
@@ -45,7 +30,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ThemeContext.Provider
-      value={{ theme, setLight, setDark, setSystem, toggleTheme }}
+      value={{
+        theme: colorScheme ?? "light",
+        setLight,
+        setDark,
+        toggleTheme,
+      }}
     >
       {children}
     </ThemeContext.Provider>
