@@ -1,4 +1,3 @@
-import * as Insights from "expo-insights";
 import { useTheme } from "@/context/ThemeContext";
 import { useInternet } from "@/context/InternetProvider";
 import NoInternetScreen from "@/components/NoInternetScreen";
