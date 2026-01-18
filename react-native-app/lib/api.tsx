@@ -3,7 +3,8 @@ import * as SecureStore from "expo-secure-store";
 
 
 const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
+  // baseURL: "http://192.168.0.193:4518/api",
+  baseURL: "https://notevault-moin-mn.vercel.app/api",
 });
 
 api.interceptors.request.use(async (config) => {
