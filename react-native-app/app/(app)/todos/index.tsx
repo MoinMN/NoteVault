@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import ErrorCatch from "@/lib/error-catch";
 import { useAlert } from "@/context/AlertContext";
+import Loader from "@/components/ui/Loader";
 
 interface Todo {
   _id: string;
@@ -18,6 +19,7 @@ export default function Todos() {
   const [count, setCount] = useState(0);
 
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const [newTodo, setNewTodo] = useState<string>("");
   const [idToUpdate, setIdToUpdate] = useState<string>("");
@@ -65,6 +67,12 @@ export default function Todos() {
           )
         );
 
+        // Hide modal immediately
+        setShowModal(false);
+        setNewTodo("");
+        setIdToUpdate("");
+        setEditMode(false);
+
         const response = await api.patch("/todo/update", {
           id: idToUpdate,
           text,
@@ -85,6 +93,12 @@ export default function Todos() {
         // Optimistic UI
         setTodos(prev => [...prev, newItem]);
 
+        // Hide modal immediately
+        setShowModal(false);
+        setNewTodo("");
+        setIdToUpdate("");
+        setEditMode(false);
+
         const response = await api.post("/todo/create", { text });
 
         if (!response.data.success) throw new Error("Create failed");
@@ -98,13 +112,6 @@ export default function Todos() {
 
         // setAlert({ message: "Todo added", type: "success" });
       }
-
-      // Reset modal + inputs
-      setShowModal(false);
-      setNewTodo("");
-      setIdToUpdate("");
-      setEditMode(false);
-
     } catch (error) {
       // Rollback UI
       setTodos(previousTodos);
@@ -140,6 +147,7 @@ export default function Todos() {
   };
 
   const fetchTodos = async () => {
+    setLoading(true);
     try {
       const response = await api.get("/todo/get");
       if (response.data?.success) {
@@ -149,6 +157,8 @@ export default function Todos() {
     } catch (error) {
       // console.log(JSON.stringify(error, null, 2));
       ErrorCatch(error, setAlert);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -176,6 +186,8 @@ export default function Todos() {
           />
         }
       />
+
+      {loading && <Loader />}
 
       {/* main screen of todo */}
       <ToDoScreen

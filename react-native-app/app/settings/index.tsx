@@ -3,13 +3,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useUser } from "@/context/AuthContext";
-import { useTheme } from "@/context/ThemeContext";
+import ThemeOption from "./_components/ThemeOption";
 
 const Settings = () => {
   const router = useRouter();
 
   const { user, logout } = useUser();
-  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = async () => {
     await logout();
@@ -84,36 +83,7 @@ const Settings = () => {
       </View>
 
       {/* Theme */}
-      <View className="m-4">
-        <Text className="text-lg font-semibold text-black dark:text-white mb-2">
-          Appearance
-        </Text>
-
-        <View className="flex-row justify-between items-center bg-gray-100 dark:bg-[#1C1C1E] px-4 py-3 rounded-xl">
-          <View className="flex-row items-center gap-3">
-            <MaterialCommunityIcons
-              name={theme === "dark" ? "weather-night" : "white-balance-sunny"}
-              size={22}
-              color="#999"
-            />
-            <Text className="text-black dark:text-white">
-              {theme === "dark" ? "Dark Mode" : "Light Mode"}
-            </Text>
-          </View>
-
-          {/* Toggle Switch */}
-          <TouchableOpacity
-            onPress={toggleTheme}
-            className={`w-12 h-7 rounded-full px-1 flex-row items-center ${theme === "dark" ? "bg-blue-600" : "bg-gray-300"
-              }`}
-          >
-            <View
-              className={`w-5 h-5 rounded-full bg-white ${theme === "dark" ? "ml-auto" : ""
-                }`}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <ThemeOption />
 
       {/* Other Options */}
       <View className="m-4">

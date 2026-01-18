@@ -16,7 +16,7 @@ type OTPProps = {
 };
 
 const OTPInput = ({ email, length = 6, onSubmit, setShowOtp, resendTime = 30 }: OTPProps) => {
-  const { theme } = useTheme();
+  const { theme } = useTheme() as any; 
   const { setAlert } = useAlert();
 
   const [otp, setOtp] = useState<string[]>(Array(length).fill(""));

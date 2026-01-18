@@ -44,7 +44,7 @@ const ToDoModel = ({
       onRequestClose={() => setShowModal(false)}
     >
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "padding"}
         className="flex-1 justify-end"
       >
         {/* Backdrop */}

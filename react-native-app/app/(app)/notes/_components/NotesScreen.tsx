@@ -31,7 +31,7 @@ type NotesScreenProps = {
 const NotesScreen = ({ gridView, sortBy, editMode, setEditMode }: NotesScreenProps) => {
   const router = useRouter();
 
-  const { theme } = useTheme();
+  const { theme } = useTheme() as any;
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedNotes, setSelectedNotes] = useState<string[]>([]);

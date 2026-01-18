@@ -9,7 +9,7 @@ import React from "react";
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const { theme } = useTheme();
+  const { theme } = useTheme() as any; 
 
   const isDark = theme === "dark";
   const tabBarBg = isDark ? "#121314" : "#F3F4F6"; // gray shades

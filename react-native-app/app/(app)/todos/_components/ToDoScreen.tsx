@@ -35,7 +35,7 @@ const ToDoScreen = (
     setShowModal
   }: ToDoScreenProps
 ) => {
-  const { theme } = useTheme();
+  const { theme } = useTheme() as any;
 
   const [selectedTodos, setSelectedTodos] = useState<string[]>([]);
   const [showConfirm, setShowConfirm] = useState(false);

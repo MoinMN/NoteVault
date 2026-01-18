@@ -21,7 +21,7 @@ import { checkPasswordComplexity } from "@/lib/PasswordCheck";
 export default function Register() {
   const router = useRouter();
 
-  const { theme } = useTheme();
+  const { theme } = useTheme() as any; 
 
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({

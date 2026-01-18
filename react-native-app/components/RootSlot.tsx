@@ -8,7 +8,7 @@ import { useAlert } from "@/context/AlertContext";
 import Alert from "./ui/Alert";
 
 const RootSlot = () => {
-  const { theme } = useTheme();
+  const { theme } = useTheme() as any; 
   const { isConnected } = useInternet();
   const { alert, setAlert } = useAlert();
 

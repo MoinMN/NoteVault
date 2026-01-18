@@ -11,7 +11,7 @@ import ErrorCatch from "@/lib/error-catch";
 
 const Login = () => {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme } = useTheme() as any; 
 
   // form data
   const [formData, setFormData] = useState<{
