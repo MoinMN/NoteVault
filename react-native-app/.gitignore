@@ -4,7 +4,9 @@
 node_modules/
 package-lock.json
 # Expo
+.expo
 .expo/
+.expo/*
 dist/
 web-build/
 expo-env.d.ts
