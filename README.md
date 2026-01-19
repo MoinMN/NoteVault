@@ -58,8 +58,7 @@ NoteVault/
     ├── api/                    # API service functions
     ├── assets/                 # Images, fonts, etc.
     ├── package.json
-    ├── tsconfig.json
-    └── .env.example
+    └── tsconfig.json
 ```
 
 ---
@@ -236,7 +235,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 ```
 
-> **Note:** For production, update `API_URL` to your deployed backend URL.
+> **Note:** For production, update `lib/api.tsx` to your deployed backend URL.
 
 ---
 
@@ -286,7 +285,12 @@ Contributions are welcome! Please follow these steps:
 
 ## 📄 License
 
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the **PixelMint Limited Use License (2026)**.
+
+You may use this software for **personal and non-commercial purposes only**.  
+Any **commercial use, resale, or monetization is strictly prohibited**.
+
+See the [LICENSE](LICENSE) file for full terms.
 
 ---
 
@@ -294,7 +298,7 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 For questions or feedback, feel free to reach out:
 
-- **Email:** your.email@example.com
+- **Email:** crichit45@gmail.com
 - **GitHub:** [MoinMN](https://github.com/MoinMN)
 
 ---

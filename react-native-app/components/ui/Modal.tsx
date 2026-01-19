@@ -10,7 +10,7 @@ type ConfirmationModalProps = {
 
   actionText: string;
   onAction: () => void;
-  actionColor?: string; // default fallback
+  actionColor?: string;
 
   cancelText?: string;
 };
@@ -22,65 +22,46 @@ const ConfirmationModal = ({
   description,
   actionText,
   onAction,
-  actionColor = "#DC2626", // red default
+  actionColor = "#DC2626",
   cancelText = "Cancel",
 }: ConfirmationModalProps) => {
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={() => setVisible(false)}
-    >
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={() => setVisible(false)}>
       {/* Backdrop */}
       <TouchableOpacity
         activeOpacity={1}
         onPress={() => setVisible(false)}
-        style={{
-          flex: 1,
-          backgroundColor: "rgba(0,0,0,0.4)",
-          justifyContent: "flex-end",
-        }}
+        className="flex-1 justify-end bg-black/30 dark:bg-black/60"
       >
         {/* Bottom Sheet */}
         <TouchableOpacity
           activeOpacity={1}
-          style={{
-            backgroundColor: "#121314",
-            padding: 20,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-          }}
+          className="bg-white dark:bg-[#121314] p-5 rounded-t-2xl"
         >
           {/* Title */}
-          <Text className="text-white text-lg font-semibold text-center">
+          <Text className="text-black dark:text-white text-lg font-semibold text-center">
             {title}
           </Text>
 
           {/* Description */}
           {description && (
-            <Text className="text-gray-400 text-sm text-center mt-2">
+            <Text className="text-gray-600 dark:text-gray-400 text-sm text-center mt-2">
               {description}
             </Text>
           )}
 
           {/* Actions */}
           <View className="mt-6">
-            {/* Action */}
+            {/* Action Button */}
             <TouchableOpacity
-              style={{
-                backgroundColor: actionColor,
-                height: 48,
-                borderRadius: 10,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              style={{ backgroundColor: actionColor }}
+              className="h-12 rounded-lg items-center justify-center"
               onPress={() => {
                 setVisible(false);
                 onAction();
               }}
             >
-              <Text className="text-white text-base font-semibold">
+              <Text className="text-white font-semibold text-base">
                 {actionText}
               </Text>
             </TouchableOpacity>
@@ -90,7 +71,7 @@ const ConfirmationModal = ({
               className="mt-3 h-12 rounded-lg items-center justify-center"
               onPress={() => setVisible(false)}
             >
-              <Text className="text-blue-500 text-base">
+              <Text className="text-blue-600 dark:text-blue-400 text-base">
                 {cancelText}
               </Text>
             </TouchableOpacity>
