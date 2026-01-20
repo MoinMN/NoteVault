@@ -1,64 +1,54 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Octicons from '@expo/vector-icons/Octicons';
+import { BottomNavigation } from 'react-native-paper';
 import { useTheme } from "@/context/ThemeContext";
 import NotesScreen from "../app/(app)/notes";
 import TodosScreen from "../app/(app)/todos";
-import React from "react";
-
-const Tab = createBottomTabNavigator();
+import React, { useState } from "react";
 
 const Tabs = () => {
-  const { theme } = useTheme() as any; 
+  const { theme } = useTheme() as any;
+  const [index, setIndex] = useState(0);
 
   const isDark = theme === "dark";
-  const tabBarBg = isDark ? "#121314" : "#F3F4F6"; // gray shades
-  const tabBarShadow = isDark ? "#2563EB" : "#D1D5DB"; // subtle shadow color
+
+  const routes = [
+    {
+      key: 'notes',
+      title: 'Notes',
+      focusedIcon: 'file-document',
+      unfocusedIcon: 'file-document-outline'
+    },
+    {
+      key: 'todos',
+      title: 'Todos',
+      focusedIcon: 'clipboard-check-outline',
+      unfocusedIcon: 'clipboard-outline'
+    },
+  ];
+
+  const renderScene = BottomNavigation.SceneMap({
+    notes: NotesScreen,
+    todos: TodosScreen,
+  });
 
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarActiveTintColor: "#2563EB",
-        tabBarInactiveTintColor: "#9CA3AF",
-        tabBarStyle: {
-          backgroundColor: tabBarBg,
-          borderTopWidth: 0,
-          position: "absolute",
-          marginHorizontal: 8,
-          bottom: 8,
-          borderRadius: 14,
-          height: 60,
-          shadowColor: tabBarShadow,
-          shadowOpacity: 0.25,
-          shadowRadius: 5,
-          shadowOffset: { width: 0, height: 5 },
-        },
-        tabBarIcon: ({ focused, color, size }) => {
-          if (route.name === "Todos") {
-            return (
-              <Octicons
-                name={"tasklist"}
-                size={focused ? 28 : 24}
-                color={color}
-              />
-            );
-          } else if (route.name === "Notes") {
-            return (
-              <MaterialCommunityIcons
-                name={focused ? "file-document" : "file-document-outline"}
-                size={focused ? 28 : 24}
-                color={color}
-              />
-            );
-          }
-        },
-      })}
-    >
-      <Tab.Screen name="Notes" component={NotesScreen} />
-      <Tab.Screen name="Todos" component={TodosScreen} />
-    </Tab.Navigator>
-  )
-}
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+      activeColor="#2563EB"
+      inactiveColor={isDark ? "#FFFFFF" : "#000000"}
+      barStyle={{
+        backgroundColor: isDark ? "#121314" : "#F3F4F6",
+        borderTopLeftRadius: 14,
+        borderTopRightRadius: 14,
+        elevation: 8,
+      }}
+      activeIndicatorStyle={{
+        backgroundColor: isDark ? "#2e4689a0" : "#DBEAFE",
+      }}
+      shifting={true}
+    />
+  );
+};
 
-export default Tabs
+export default Tabs;

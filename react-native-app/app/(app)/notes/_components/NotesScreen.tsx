@@ -1,15 +1,16 @@
 import Checkbox from "@/components/ui/CheckBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import EditHead from "@/components/EditHead";
 import { useRouter } from "expo-router";
 import ConfirmationModal from "@/components/ui/Modal";
 import ErrorCatch from "@/lib/error-catch";
-import api from "@/lib/api";
 import { useAlert } from "@/context/AlertContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useAppDispatch } from "@/hooks/redux";
+import { deleteLocal, deleteNotes, fetchNotes } from "@/redux/slices/note.slice";
 
 type Note = {
   _id: string;
@@ -22,45 +23,28 @@ type Note = {
 type SortBy = "created" | "edited";
 
 type NotesScreenProps = {
+  notes: Note[];
+  loading: boolean;
   gridView: boolean;
   sortBy: SortBy;
   editMode: boolean;
   setEditMode: Dispatch<SetStateAction<boolean>>;
 };
 
-const NotesScreen = ({ gridView, sortBy, editMode, setEditMode }: NotesScreenProps) => {
+const NotesScreen = ({
+  notes, loading, gridView, sortBy, editMode, setEditMode
+}: NotesScreenProps) => {
   const router = useRouter();
 
   const { theme } = useTheme() as any;
 
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
-  // alert data
+  const dispatch = useAppDispatch();
   const { setAlert } = useAlert();
 
+  const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
+
   const [showConfirm, setShowConfirm] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-
-  const fetchNotes = async () => {
-    setRefreshing(true);
-    try {
-      const response = await api.get("/note/get");
-      if (response.data?.success) {
-        setNotes(response.data?.notes);
-      } else {
-        setAlert({ message: response.data?.msg, type: "error" });
-      }
-    } catch (error) {
-      // console.log(JSON.stringify(error, null, 2));
-      ErrorCatch(error, setAlert);
-    } finally {
-      setRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+  const [refreshing] = useState(false);
 
   const toggleSelectTodo = (id: string) => {
     if (selectedNotes.includes(id)) {
@@ -86,20 +70,16 @@ const NotesScreen = ({ gridView, sortBy, editMode, setEditMode }: NotesScreenPro
     );
   }, [notes, sortBy]);
 
-  // check once
-  const handleDeleteNotes = async (ids: string[]) => {
-    try {
-      const response = await api.delete("/note/delete", { data: { ids } });
-      setAlert({
-        message: response.data?.msg,
-        type: response.data?.success ? "success" : "error"
-      });
-    } catch (error) {
-      // console.log(JSON.stringify(error, null, 2));
-      ErrorCatch(error, setAlert);
-    }
-    setNotes((prev) => prev.filter((t) => !ids.includes(t._id)));
-  }
+  const handleDeleteNotes = (ids: string[]) => {
+    dispatch(deleteLocal(ids)); // instant UI remove
+
+    dispatch(deleteNotes(ids))
+      .unwrap()
+      .catch(err => ErrorCatch(err, setAlert));
+
+    setSelectedNotes([]);
+    setEditMode(false);
+  };
 
   return (
     <>
@@ -216,7 +196,7 @@ const NotesScreen = ({ gridView, sortBy, editMode, setEditMode }: NotesScreenPro
       {/* Floating Add Button */}
       <TouchableOpacity
         onPress={() => router.replace("/create-notes/" as any)}
-        className="absolute bottom-20 right-6 bg-[#2563EB] w-14 h-14 rounded-full items-center justify-center shadow-lg"
+        className="absolute bottom-4 right-6 bg-[#2563EB] w-14 h-14 rounded-full items-center justify-center shadow-lg"
       >
         <MaterialCommunityIcons
           name="plus"

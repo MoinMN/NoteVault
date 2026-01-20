@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { View, TouchableOpacity, Text, Share, TextInput } from "react-native";
+import { View, TouchableOpacity, Text, Share, TextInput, BackHandler } from "react-native";
 import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NoteEditor from "./NoteEditor";
 import ErrorCatch from "@/lib/error-catch";
-import api from "@/lib/api";
 import { useAlert } from "@/context/AlertContext";
+import { useAppDispatch } from "@/hooks/redux";
+import { addLocal, replaceTempId, saveNote, updateLocal } from "@/redux/slices/note.slice";
 
 type NoteFormProps = {
   initialTitle?: string;
   initialContent?: string;
   noteId?: string; // optional for edit
-  apiEndpoint: string; // e.g. "/note/create" or "/note/update"
-  redirectTo?: string; // default redirect after save
   buttonText?: string; // e.g. "Save" or "Update"
 };
 
@@ -20,8 +19,6 @@ export default function NoteForm({
   initialTitle = "",
   initialContent = "",
   noteId,
-  apiEndpoint,
-  redirectTo = "/(app)/notes",
   buttonText = "Save",
 }: NoteFormProps) {
   const router = useRouter();
@@ -29,7 +26,22 @@ export default function NoteForm({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
+  const titleRef = useRef(title);
+  const contentRef = useRef(content);
+
+  useEffect(() => {
+    titleRef.current = title;
+    contentRef.current = content;
+    isDirtyRef.current = true;
+  }, [title, content]);
+
+  const dispatch = useAppDispatch();
   const { setAlert } = useAlert();
+
+  const isDirtyRef = useRef(false);
+  const saveTimeout = useRef<number | null>(null);
+
+  const lastSaved = useRef({ title: initialTitle, content: initialContent });
 
   // --- SEARCH STATE ---
   const [searchVisible, setSearchVisible] = useState(false);
@@ -51,26 +63,47 @@ export default function NoteForm({
     setContent(initialContent);
   }, [initialTitle, initialContent]);
 
-  const handleSave = async () => {
-    if (!title.trim() || !content.trim()) {
-      setAlert({ message: "Title & Content Needed!", type: "warning" });
-      return;
+  const handleBack = async () => {
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+
+    if (isDirtyRef.current) {
+      await autoSaveNote(true);
     }
 
-    try {
-      const payload: any = { title, content };
-      if (noteId) payload.id = noteId;
-
-      const response = await (noteId ? api.put(apiEndpoint, payload) : api.post(apiEndpoint, payload));
-      if (!response.data?.success) {
-        return setAlert({ message: response.data?.msg, type: "warning" });
-      }
-
-      router.push(redirectTo as any);
-    } catch (error) {
-      ErrorCatch(error, setAlert);
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/(app)/notes"); // fallback route
     }
   };
+
+  useEffect(() => {
+    const onBackPress = () => {
+      if (isDirtyRef.current) {
+        // Prevent default back
+        try {
+          autoSaveNote(true);
+        } catch (err) {
+          console.log("Error saving on back:", err);
+        }
+      }
+
+      // Now go back
+      if (router.canGoBack()) {
+        router.back();
+      } else {
+        router.replace("/(app)/notes"); // fallback route
+      }
+      return true; // indicate we handled the back
+    };
+
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
+      onBackPress();
+      return true; // important: prevent default until we call router.back()
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   const handleShare = async () => {
     if (!title.trim() || !content.trim()) {
@@ -83,12 +116,78 @@ export default function NoteForm({
       if (content.trim()) messageParts.push(`Content: ${content}`);
       const message = messageParts.join("\n\n");
 
-      const result = await Share.share({ title: title || "My Note", message });
-      if (result.action === Share.dismissedAction) console.log("Share cancelled");
+      await Share.share({ title: title || "My Note", message });
     } catch {
       setAlert({ message: "Could not share the note. Try again.", type: "error" });
     }
   };
+
+  const autoSaveNote = async (force = false) => {
+    const t = titleRef.current;
+    const c = contentRef.current;
+
+    if (!isDirtyRef.current) return;
+    if (!t.trim() || !c.trim()) return;
+
+    if (!force &&
+      t === lastSaved.current.title &&
+      c === lastSaved.current.content
+    ) return;
+
+    lastSaved.current = { title: t, content: c };
+
+    if (noteId) {
+      // Optimistic UI update
+      dispatch(updateLocal({ id: noteId, title: t, content: c }));
+      // router.push("/(app)/notes");
+
+      try {
+        await dispatch(saveNote({ id: noteId, title: t, content: c })).unwrap();
+      } catch (err) {
+        ErrorCatch(err, setAlert);
+      }
+      isDirtyRef.current = false;
+      return;
+    }
+
+    // if creating new
+    const tempId = Date.now().toString();
+
+    // Optimistic UI add
+    dispatch(addLocal({
+      _id: tempId,
+      title: t,
+      content: c,
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    }));
+
+    // router.push("/(app)/notes");
+
+    try {
+      const realNote = await dispatch(saveNote({ title: t, content: c })).unwrap();
+
+      dispatch(replaceTempId({ tempId, realNote }));
+    } catch (err) {
+      ErrorCatch(err, setAlert);
+    } finally {
+      isDirtyRef.current = false;
+    }
+  };
+
+  useEffect(() => {
+    isDirtyRef.current = true;
+
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+
+    saveTimeout.current = setTimeout(() => {
+      autoSaveNote();
+    }, 1500);
+
+    return () => {
+      if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    };
+  }, [title, content]);
 
   return (
     <>
@@ -96,7 +195,11 @@ export default function NoteForm({
         {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800">
           {/* Back */}
-          <TouchableOpacity onPress={() => router.push(redirectTo as any)}>
+          <TouchableOpacity
+            onPress={handleBack}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            className="p-2"
+          >
             <MaterialCommunityIcons name="arrow-left" size={26} color="#2563EB" />
           </TouchableOpacity>
 
@@ -111,7 +214,7 @@ export default function NoteForm({
               <MaterialCommunityIcons name="share-variant" size={22} color="#2563EB" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleSave}>
+            <TouchableOpacity onPress={() => autoSaveNote()}>
               <Text className="text-blue-500 font-semibold text-base">{buttonText}</Text>
             </TouchableOpacity>
           </View>

@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useUser } from "@/context/AuthContext";
 import ThemeOption from "./_components/ThemeOption";
+import BackButton from "@/components/BackButton";
 
 const Settings = () => {
   const router = useRouter();
@@ -43,9 +44,7 @@ const Settings = () => {
     <SafeAreaView className="flex-1 bg-white dark:bg-black">
       {/* Header (Fixed) */}
       <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-800">
-        <TouchableOpacity onPress={() => router.back()}>
-          <MaterialCommunityIcons name="arrow-left" size={26} color="#2563EB" />
-        </TouchableOpacity>
+        <BackButton />
         <Text className="text-xl font-bold text-black dark:text-white ml-4">
           Settings
         </Text>

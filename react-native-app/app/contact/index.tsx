@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import api from "@/lib/api";
 import { useAlert } from "@/context/AlertContext";
+import BackButton from "@/components/BackButton";
 
 const contactTypes = [
   "General Inquiry",
@@ -51,9 +51,7 @@ const Contact = () => {
     <SafeAreaView className="flex-1 bg-white dark:bg-black">
       {/* Header */}
       <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-800">
-        <TouchableOpacity onPress={() => router.back()}>
-          <MaterialCommunityIcons name="arrow-left" size={26} color="#2563EB" />
-        </TouchableOpacity>
+        <BackButton />
         <Text className="text-xl font-bold text-black dark:text-white ml-4">
           Contact Us
         </Text>

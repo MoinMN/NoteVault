@@ -105,7 +105,7 @@ const ToDoScreen = (
       {/* Floating Add Button */}
       <TouchableOpacity
         onPress={() => setShowModal(true)}
-        className="absolute bottom-20 right-6 bg-[#2563EB] w-14 h-14 rounded-full items-center justify-center shadow-lg"
+        className="absolute bottom-4 right-6 bg-[#2563EB] w-14 h-14 rounded-full items-center justify-center shadow-lg"
       >
         <MaterialCommunityIcons
           name="plus"

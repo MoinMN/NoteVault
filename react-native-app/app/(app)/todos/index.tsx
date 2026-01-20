@@ -4,22 +4,28 @@ import ToDoModel from "./_components/InputModel";
 import ToDoMenu from "./_components/Menu";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
-import api from "@/lib/api";
 import ErrorCatch from "@/lib/error-catch";
 import { useAlert } from "@/context/AlertContext";
 import Loader from "@/components/ui/Loader";
-
-interface Todo {
-  _id: string;
-  text: string;
-  completed: boolean;
-}
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import {
+  fetchTodos,
+  addLocal,
+  createTodo,
+  deleteLocal,
+  deleteTodo,
+  toggleLocal,
+  toggleTodo,
+  updateLocal,
+  updateTodo,
+  replaceTempId
+} from "@/redux/slices/todo.slice";
 
 export default function Todos() {
-  const [count, setCount] = useState(0);
+  const dispatch = useAppDispatch();
 
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { setAlert } = useAlert();
+  const { todos, loading } = useAppSelector(state => state.todos);
 
   const [newTodo, setNewTodo] = useState<string>("");
   const [idToUpdate, setIdToUpdate] = useState<string>("");
@@ -27,98 +33,6 @@ export default function Todos() {
   const [showMenu, setShowMenu] = useState(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [hideCompletedTodos, setHideCompletedTodos] = useState<boolean>(false);
-  // alert data
-  const { setAlert } = useAlert();
-
-  const toggleTodoStatus = async (id: string) => {
-    setTodos(prev =>
-      prev.map(item =>
-        item._id === id ? { ...item, completed: !item.completed } : item
-      )
-    );
-
-    try {
-      const response = await api.patch("/todo/toggle", { id });
-      if (!response.data?.success) throw new Error("Failed to updated!");
-    } catch (error) {
-      // rollback on error
-      setTodos(prev =>
-        prev.map(item =>
-          item._id === id ? { ...item, completed: !item.completed } : item
-        )
-      );
-      ErrorCatch(error, setAlert);
-    }
-  };
-
-  const handleAddNewTodo = async (text: string) => {
-    if (!text.trim()) return;
-
-    const isUpdate = Boolean(idToUpdate.trim());
-
-    let previousTodos = todos;
-
-    try {
-      if (isUpdate) {
-        // Optimistic UI update
-        setTodos(prev =>
-          prev.map(item =>
-            item._id === idToUpdate ? { ...item, text } : item
-          )
-        );
-
-        // Hide modal immediately
-        setShowModal(false);
-        setNewTodo("");
-        setIdToUpdate("");
-        setEditMode(false);
-
-        const response = await api.patch("/todo/update", {
-          id: idToUpdate,
-          text,
-        });
-
-        if (!response.data.success) throw new Error("Update failed");
-
-        // setAlert({ message: "Todo updated", type: "success" });
-
-      } else {
-        // Create new todo
-        const newItem = {
-          _id: Date.now().toString(),
-          text,
-          completed: false,
-        };
-
-        // Optimistic UI
-        setTodos(prev => [...prev, newItem]);
-
-        // Hide modal immediately
-        setShowModal(false);
-        setNewTodo("");
-        setIdToUpdate("");
-        setEditMode(false);
-
-        const response = await api.post("/todo/create", { text });
-
-        if (!response.data.success) throw new Error("Create failed");
-
-        // Replace temp id with real id from backend
-        const savedTodo = response.data.todo;
-
-        setTodos(prev =>
-          prev.map(item => (item._id === newItem._id ? savedTodo : item))
-        );
-
-        // setAlert({ message: "Todo added", type: "success" });
-      }
-    } catch (error) {
-      // Rollback UI
-      setTodos(previousTodos);
-      ErrorCatch(error, setAlert);
-    }
-  };
-
 
   const handleEditModalTrigger = (id: string, text: string) => {
     setNewTodo(text);
@@ -126,51 +40,67 @@ export default function Todos() {
     setShowModal(true);
   }
 
-  const handleDeleteTodos = async (ids: string[]) => {
-    // Backup state for rollback
-    const previousTodos = todos;
+  const handleAddTodo = async (text: string) => {
+    const temp = { _id: Date.now().toString(), text, completed: false };
 
-    // Optimistically remove from UI
-    setTodos(prev => prev.filter(todo => !ids.includes(todo._id)));
+    // Optimistic UI
+    dispatch(addLocal(temp));
+    setShowModal(false);
+    setNewTodo("");
+    setIdToUpdate("");
+    setEditMode(false);
 
     try {
-      const response = await api.delete("/todo/delete", { data: { ids } });
-
-      if (!response.data.success) throw new Error("Delete failed");
-
-      // setAlert({ message: "Todo deleted successfully", type: "success" });
-    } catch (error) {
-      // Rollback UI if delete fails
-      setTodos(previousTodos);
-      ErrorCatch(error, setAlert);
+      const result = await dispatch(createTodo(text)).unwrap();
+      dispatch(replaceTempId({ tempId: temp._id, realTodo: result }));
+    } catch (err: unknown) {
+      dispatch(deleteLocal([temp._id]));
+      ErrorCatch(err as any, setAlert);
     }
   };
 
-  const fetchTodos = async () => {
-    setLoading(true);
-    try {
-      const response = await api.get("/todo/get");
-      if (response.data?.success) {
-        setTodos(response.data?.todos);
-        setCount(response.data?.count);
-      }
-    } catch (error) {
-      // console.log(JSON.stringify(error, null, 2));
-      ErrorCatch(error, setAlert);
-    } finally {
-      setLoading(false);
-    }
+  const handleToggle = (id: string) => {
+    dispatch(toggleLocal(id));
+    dispatch(toggleTodo(id))
+      .unwrap()
+      .catch(err => ErrorCatch(err, setAlert));
   };
 
+  const handleUpdate = (text: string) => {
+    if (!idToUpdate.trim()) return;
+
+    // Optimistic UI
+    dispatch(updateLocal({ id: idToUpdate, text }));
+    setShowModal(false);
+    setNewTodo("");
+    setIdToUpdate("");
+    setEditMode(false);
+
+    // Call backend
+    dispatch(updateTodo({ id: idToUpdate, text }))
+      .unwrap()
+      .catch(err => ErrorCatch(err, setAlert));
+  };
+
+  const handleDelete = (ids: string[]) => {
+    dispatch(deleteLocal(ids));
+    dispatch(deleteTodo(ids))
+      .unwrap()
+      .catch(err => ErrorCatch(err, setAlert));
+  };
+
+  // fetch todos
   useEffect(() => {
-    fetchTodos();
+    dispatch(fetchTodos())
+      .unwrap()
+      .catch(err => ErrorCatch(err, setAlert));
   }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-black px-4">
       {/* Header */}
       <Header
-        count={count}
+        count={todos.length}
         headTitle="To-dos"
         subHeadLine="tasks"
         showMenu={showMenu}
@@ -187,14 +117,14 @@ export default function Todos() {
         }
       />
 
-      {loading && <Loader />}
+      {(loading && todos.length === 0) && <Loader />}
 
       {/* main screen of todo */}
       <ToDoScreen
         todos={todos}
-        toggleTodoStatus={toggleTodoStatus}
+        toggleTodoStatus={handleToggle}
         handleEditModalTrigger={handleEditModalTrigger}
-        handleDeleteTodos={handleDeleteTodos}
+        handleDeleteTodos={handleDelete}
         editMode={editMode}
         setEditMode={setEditMode}
         setShowModal={setShowModal}
@@ -206,7 +136,7 @@ export default function Todos() {
         <ToDoModel
           showModal={showModal}
           setShowModal={setShowModal}
-          handleAddNewTodo={handleAddNewTodo}
+          handleAddNewTodo={idToUpdate ? handleUpdate : handleAddTodo}
           newTodo={newTodo}
           setNewTodo={setNewTodo}
           setIdToUpdate={setIdToUpdate}

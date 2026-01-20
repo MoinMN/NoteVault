@@ -1,7 +1,7 @@
 import { ScrollView, Text, Linking, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import BackButton from "@/components/BackButton";
 
 const About = () => {
   const router = useRouter();
@@ -9,9 +9,7 @@ const About = () => {
     <SafeAreaView className="flex-1 bg-white dark:bg-black">
       {/* Header with back button */}
       <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-800">
-        <TouchableOpacity onPress={() => router.back()}>
-          <MaterialCommunityIcons name="arrow-left" size={26} color="#2563EB" />
-        </TouchableOpacity>
+        <BackButton />
         <Text className="text-xl font-bold text-black dark:text-white ml-4">
           About NoteVault
         </Text>

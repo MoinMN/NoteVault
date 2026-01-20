@@ -1,5 +1,6 @@
-import { View, Text, TextInput, Pressable, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, Text, Pressable, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Button, TextInput as PaperInput } from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
@@ -11,7 +12,7 @@ import ErrorCatch from "@/lib/error-catch";
 
 const Login = () => {
   const router = useRouter();
-  const { theme } = useTheme() as any; 
+  const { theme } = useTheme() as any;
 
   // form data
   const [formData, setFormData] = useState<{
@@ -19,6 +20,7 @@ const Login = () => {
   }>({ email: "", password: "" });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   // alert data
   const { setAlert } = useAlert();
@@ -78,58 +80,87 @@ const Login = () => {
 
           {/* Email Input */}
           <View className="mb-4">
-            <Text className="text-gray-700 dark:text-gray-300 mb-1">Email</Text>
-            <TextInput
-              placeholder="Enter your email"
+            <PaperInput
+              label="Email"
+              mode="outlined"
+              value={formData.email}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, email: text }))
+              }
+              contentStyle={{ fontSize: 14 }}
               autoCapitalize="none"
-              onChangeText={(text) => setFormData((prev) => ({ ...prev, email: text }))}
               keyboardType="email-address"
-              className="border border-gray-300 dark:border-gray-700
-                 bg-white dark:bg-gray-900
-                 text-gray-900 dark:text-white
-                 rounded-lg px-4 py-3"
-              placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#4B5563"}
+              placeholder="Enter your email"
+              outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
+              activeOutlineColor="#2563EB"
+              textColor={theme === "dark" ? "#D1D5DB" : "#111827"}
+              placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#6B7280"}
+              style={{
+                backgroundColor: theme === "dark" ? "#111827" : "#D1D5DB",
+              }}
             />
           </View>
 
           {/* Password Input */}
           <View className="mb-6">
-            <Text className="text-gray-700 dark:text-gray-300 mb-1">Password</Text>
-            <TextInput
+            <PaperInput
+              label="Password"
+              mode="outlined"
+              value={formData.password}
+              onChangeText={(text) =>
+                setFormData((prev) => ({ ...prev, password: text }))
+              }
+              contentStyle={{ fontSize: 14 }}
+              secureTextEntry={!showPassword}
               placeholder="Enter your password"
-              secureTextEntry
-              onChangeText={(text) => setFormData((prev) => ({ ...prev, password: text }))}
-              className="border border-gray-300 dark:border-gray-700
-                 bg-white dark:bg-gray-900
-                 text-gray-900 dark:text-white
-                 rounded-lg px-4 py-3"
-              placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#4B5563"}
+              outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
+              activeOutlineColor="#2563EB"
+              textColor={theme === "dark" ? "#FFFFFF" : "#111827"}
+              placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#6B7280"}
+              style={{
+                backgroundColor: theme === "dark" ? "#111827" : "#FFFFFF",
+              }}
+              right={
+                <PaperInput.Icon
+                  icon={showPassword ? "eye-off" : "eye"}
+                  size={18}
+                  onPress={() => setShowPassword((prev) => !prev)}
+                  color={theme === "dark" ? "#D1D5DB" : "#111827"}
+                />
+              }
             />
           </View>
 
           {/* Login Button */}
-          <Pressable
+          <Button
+            mode="contained"
             onPress={handleLogin}
+            loading={loading}
             disabled={loading}
-            className={`py-3 rounded-lg mb-6 flex-row items-center justify-center ${loading
-              ? "bg-blue-400 dark:bg-blue-400"
-              : "bg-blue-600 dark:bg-blue-500"
-              }`}
+            contentStyle={{
+              height: 48,
+              justifyContent: "center",
+            }}
+            labelStyle={{
+              fontSize: 14,
+              fontWeight: "600",
+            }}
+            style={{
+              borderRadius: 8,
+              marginBottom: 24,
+              backgroundColor: loading ? "#60A5FA" : "#2563EB",
+            }}
           >
             {loading ? (
-              <>
-                <ActivityIndicator size="small" color="white" />
-                <Text className="text-white font-semibold text-lg ml-2">
-                  Logging in...
-                </Text>
-              </>
+              <Text className="text-white font-semibold text-lg ml-2">
+                Logging in...
+              </Text>
             ) : (
               <Text className="text-white font-semibold text-lg">
                 Login
               </Text>
             )}
-          </Pressable>
-
+          </Button>
 
           {/* Sign up link */}
           <View className="flex-row justify-center mt-6">

@@ -3,30 +3,26 @@ import NotesScreen from "./_components/NotesScreen";
 import { useEffect, useState } from "react";
 import NotesMenu from "./_components/Menu";
 import Header from "@/components/Header";
-import api from "@/lib/api";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useAlert } from "@/context/AlertContext";
+import { fetchNotes } from "@/redux/slices/note.slice";
+import ErrorCatch from "@/lib/error-catch";
 
 export default function Todos() {
-  const [count, setCount] = useState(0);
+  const dispatch = useAppDispatch();
+  const { setAlert } = useAlert();
+
+  const { notes, loading } = useAppSelector(state => state.notes);
+
   const [showMenu, setShowMenu] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [gridView, setGridView] = useState(false);
   const [sortBy, setSortBy] = useState<"created" | "edited">("edited");
 
   useEffect(() => {
-    const fetchNotesCount = async () => {
-      try {
-        const response = await api.get("/note/count");
-        if (response.data?.success) {
-          setCount(response.data?.count);
-        } else {
-          setCount(0);
-        }
-      } catch (error) {
-        console.log(JSON.stringify(error, null, 2));
-      }
-    };
-
-    fetchNotesCount();
+    dispatch(fetchNotes())
+      .unwrap()
+      .catch(err => ErrorCatch(err, setAlert));
   }, []);
 
   return (
@@ -35,7 +31,7 @@ export default function Todos() {
       <Header
         headTitle="Notes"
         subHeadLine="notes"
-        count={count}
+        count={notes.length}
         showMenu={showMenu}
         setShowMenu={setShowMenu}
         MenuComponent={
@@ -53,6 +49,8 @@ export default function Todos() {
       />
 
       <NotesScreen
+        notes={notes}
+        loading={loading}
         editMode={editMode}
         setEditMode={setEditMode}
         gridView={gridView}

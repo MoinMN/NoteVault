@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type ThemeMode = "light" | "dark" | "system";
 
-interface ThemeContextType {
+type ThemeContextType = {
   theme: "light" | "dark";
   mode: ThemeMode;
   setLight: () => void;

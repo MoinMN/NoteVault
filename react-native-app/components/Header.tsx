@@ -30,7 +30,10 @@ const Header = ({
       {showMenu && MenuComponent}
 
       {/* Three-dot menu */}
-      <TouchableOpacity onPress={() => setShowMenu(true)}>
+      <TouchableOpacity
+        onPress={() => setShowMenu(true)}
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+      >
         <MaterialCommunityIcons
           name="dots-vertical"
           size={24}

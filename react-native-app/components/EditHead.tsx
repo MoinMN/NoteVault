@@ -17,21 +17,25 @@ const EditHead = <T,>({
   onSelectAll,
 }: EditHeadProps<T>) => {
   return (
-    <View className="flex-row justify-between items-center py-4 px-2">
+    <View className="flex-row justify-between items-center py-4">
       {/* Cancel */}
       <TouchableOpacity
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
         onPress={() => {
           setEditMode(false);
           setSelectedItems([]);
         }}
+        className="p-2"
       >
         <Text className="text-blue-500 font-semibold">Cancel</Text>
       </TouchableOpacity>
 
       {/* Delete */}
       <TouchableOpacity
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
         onPress={onDelete}
         disabled={selectedItems.length === 0}
+        className="p-2"
       >
         <Text
           className={`font-semibold ${selectedItems.length > 0 ? "text-red-500" : "text-gray-400"
@@ -42,7 +46,11 @@ const EditHead = <T,>({
       </TouchableOpacity>
 
       {/* Select All */}
-      <TouchableOpacity onPress={onSelectAll}>
+      <TouchableOpacity
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+        onPress={onSelectAll}
+        className="p-2"
+      >
         <Text className="text-blue-500 font-semibold">Select All</Text>
       </TouchableOpacity>
     </View>

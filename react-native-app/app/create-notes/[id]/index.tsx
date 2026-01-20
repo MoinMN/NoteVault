@@ -9,7 +9,6 @@ export default function EditNote() {
       initialTitle={params.title}
       initialContent={params.content}
       noteId={params.id}
-      apiEndpoint="/note/update"
       buttonText="Update"
     />
   );
