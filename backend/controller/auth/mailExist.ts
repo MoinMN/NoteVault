@@ -10,6 +10,7 @@ const MailExist = async (req: AuthRequest, res: Response) => {
 
     const userExist = await User.findOne({ email });
 
+    // check mail exist
     if (userExist)
       return res.status(401).json({ success: false, msg: "Email Already Exist!" });
 

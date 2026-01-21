@@ -1,6 +1,6 @@
 import Checkbox from "@/components/ui/CheckBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import EditHead from "@/components/EditHead";
@@ -11,6 +11,7 @@ import { useAlert } from "@/context/AlertContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useAppDispatch } from "@/hooks/redux";
 import { deleteLocal, deleteNotes, fetchNotes } from "@/redux/slices/note.slice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Note = {
   _id: string;
@@ -24,15 +25,18 @@ type SortBy = "created" | "edited";
 
 type NotesScreenProps = {
   notes: Note[];
-  loading: boolean;
   gridView: boolean;
   sortBy: SortBy;
   editMode: boolean;
   setEditMode: Dispatch<SetStateAction<boolean>>;
+  setGridView: Dispatch<SetStateAction<boolean>>;
 };
 
+// Define keys
+const GRID_VIEW_KEY = "@notes_gridView";
+
 const NotesScreen = ({
-  notes, loading, gridView, sortBy, editMode, setEditMode
+  notes, gridView, sortBy, editMode, setEditMode, setGridView
 }: NotesScreenProps) => {
   const router = useRouter();
 
@@ -42,6 +46,26 @@ const NotesScreen = ({
   const { setAlert } = useAlert();
 
   const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
+
+  // Load preferences from AsyncStorage on mount
+  useEffect(() => {
+    const loadPreferences = async () => {
+      try {
+        const storedGrid = await AsyncStorage.getItem(GRID_VIEW_KEY);
+
+        if (storedGrid !== null) setGridView(storedGrid === "true");
+      } catch (err) {
+        console.log("Error loading preferences:", err);
+      }
+    };
+
+    loadPreferences();
+  }, []);
+
+  // Save gridView to storage when it changes
+  useEffect(() => {
+    AsyncStorage.setItem(GRID_VIEW_KEY, gridView.toString());
+  }, [gridView]);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [refreshing] = useState(false);
@@ -63,11 +87,17 @@ const NotesScreen = ({
   };
 
   const sortedNotes = useMemo(() => {
-    return [...notes].sort((a, b) =>
-      sortBy === "created"
-        ? b.createdAt - a.createdAt
-        : b.updatedAt - a.updatedAt
-    );
+    return [...notes].sort((a, b) => {
+      const aTime = typeof a[sortBy === "created" ? "createdAt" : "updatedAt"] === "string"
+        ? new Date(a[sortBy === "created" ? "createdAt" : "updatedAt"]).getTime()
+        : a[sortBy === "created" ? "createdAt" : "updatedAt"];
+
+      const bTime = typeof b[sortBy === "created" ? "createdAt" : "updatedAt"] === "string"
+        ? new Date(b[sortBy === "created" ? "createdAt" : "updatedAt"]).getTime()
+        : b[sortBy === "created" ? "createdAt" : "updatedAt"];
+
+      return bTime - aTime;
+    });
   }, [notes, sortBy]);
 
   const handleDeleteNotes = (ids: string[]) => {
@@ -98,7 +128,7 @@ const NotesScreen = ({
           contentContainerStyle={{ paddingBottom: editMode ? 90 : 80, }}
           data={sortedNotes}
           keyExtractor={(item) => item._id}
-          key={gridView ? "grid" : "list"}
+          key={`${gridView ? "grid" : "list"}-${sortBy}`}
           numColumns={gridView ? 2 : 1}
           refreshing={refreshing}
           onRefresh={fetchNotes}

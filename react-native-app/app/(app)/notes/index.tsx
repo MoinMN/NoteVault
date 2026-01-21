@@ -7,17 +7,41 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useAlert } from "@/context/AlertContext";
 import { fetchNotes } from "@/redux/slices/note.slice";
 import ErrorCatch from "@/lib/error-catch";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const SORT_BY_KEY = "@notes_sortBy";
+
+type SortBy = "created" | "edited";
 
 export default function Todos() {
   const dispatch = useAppDispatch();
   const { setAlert } = useAlert();
 
-  const { notes, loading } = useAppSelector(state => state.notes);
+  const { notes } = useAppSelector(state => state.notes);
 
   const [showMenu, setShowMenu] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [gridView, setGridView] = useState(false);
   const [sortBy, setSortBy] = useState<"created" | "edited">("edited");
+
+  // Load preferences from AsyncStorage on mount
+  useEffect(() => {
+    const loadPreferences = async () => {
+      try {
+        const storedSort = await AsyncStorage.getItem(SORT_BY_KEY);
+        if (storedSort !== null) setSortBy(storedSort as SortBy);
+      } catch (err) {
+        console.log("Error loading preferences:", err);
+      }
+    };
+
+    loadPreferences();
+  }, []);
+
+  // Save sortBy to storage when it changes
+  useEffect(() => {
+    AsyncStorage.setItem(SORT_BY_KEY, sortBy);
+  }, [sortBy]);
 
   useEffect(() => {
     dispatch(fetchNotes())
@@ -50,10 +74,10 @@ export default function Todos() {
 
       <NotesScreen
         notes={notes}
-        loading={loading}
         editMode={editMode}
         setEditMode={setEditMode}
         gridView={gridView}
+        setGridView={setGridView}
         sortBy={sortBy}
       />
 

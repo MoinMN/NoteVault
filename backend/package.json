@@ -1,6 +1,6 @@
 {
   "name": "notevault-backend",
-  "version": "26.1.18",
+  "version": "26.1.22",
   "description": "",
   "main": "dist/index.js",
   "type": "module",

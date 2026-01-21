@@ -31,6 +31,26 @@ const Settings = () => {
     return names.map((n) => n[0]).join("").toUpperCase();
   };
 
+  // Generate avatar color based on user name
+  const getAvatarColor = (name: string) => {
+    const colors = [
+      "#3B82F6", // blue-500
+      "#EF4444", // red-500
+      "#10B981", // green-500
+      "#F59E0B", // amber-500
+      "#8B5CF6", // violet-500
+      "#EC4899", // pink-500
+      "#14B8A6", // teal-500
+      "#F97316", // orange-500
+      "#6366F1", // indigo-500
+      "#06B6D4", // cyan-500
+    ];
+
+    // Use the sum of character codes to pick a color
+    const charCodeSum = name.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    return colors[charCodeSum % colors.length];
+  };
+
   const Row = ({ text, redirect }: { text: string; redirect: string }) => (
     <TouchableOpacity
       className="bg-gray-100 dark:bg-[#1C1C1E] px-4 py-3 rounded-xl mb-2 flex-row justify-between items-center"
@@ -63,7 +83,7 @@ const Settings = () => {
             size={64}
             label={getInitials(user?.name || "MMN")}
             style={{
-              backgroundColor: "#3B82F6", // blue-500
+              backgroundColor: getAvatarColor(user?.name || "MMN"),
             }}
             labelStyle={{
               color: "white",
@@ -115,7 +135,7 @@ const Settings = () => {
 
           <View className="bg-gray-100 dark:bg-[#1C1C1E] px-4 py-3 rounded-xl mb-2 flex-row justify-between items-center">
             <Text className="text-black dark:text-white">Version</Text>
-            <Text className="text-gray-500 dark:text-gray-400">26.1.18</Text>
+            <Text className="text-gray-500 dark:text-gray-400">26.1.22</Text>
           </View>
 
           <Row text="About Notes" redirect="about" />

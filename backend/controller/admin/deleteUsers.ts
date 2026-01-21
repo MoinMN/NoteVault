@@ -3,6 +3,7 @@ import User from "../../model/user.model.js";
 import { Response } from "express";
 import mongoose from "mongoose";
 
+// delete users by admin
 const deleteUsers = async (req: AuthRequest, res: Response) => {
   try {
     const { ids } = req.body;
