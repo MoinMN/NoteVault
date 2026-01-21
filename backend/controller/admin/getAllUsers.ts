@@ -11,6 +11,7 @@ const getAllUsers = async (req: AuthRequest, res: Response) => {
         email: 1,
         role: 1,
         _id: 1,
+        createdAt: 1
       }
     ).lean();
 

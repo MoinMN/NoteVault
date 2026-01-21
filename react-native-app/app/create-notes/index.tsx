@@ -1,5 +1,5 @@
 import NoteForm from "./_components/NoteForm";
 
 export default function CreateNote() {
-  return <NoteForm buttonText="Save" />;
+  return <NoteForm />;
 }

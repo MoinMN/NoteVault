@@ -16,6 +16,8 @@ type NoteEditorProps = {
   setContent: (text: string) => void;
   autoFocus?: boolean;
   searchQuery?: string;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 };
 
 const NoteEditor = ({
@@ -25,6 +27,8 @@ const NoteEditor = ({
   setContent,
   autoFocus = true,
   searchQuery = "",
+  createdAt,
+  updatedAt,
 }: NoteEditorProps) => {
   const contentRef = useRef<TextInput>(null);
   const titleRef = useRef<TextInput>(null);
@@ -35,16 +39,22 @@ const NoteEditor = ({
       const timer = setTimeout(() => {
         titleRef.current?.focus();
       }, 300);
-
       return () => clearTimeout(timer);
     }
   }, [autoFocus]);
+
+  const formatDate = (date?: string | Date) => {
+    if (!date) return "";
+    return new Date(date).toLocaleString();
+  };
 
   // --- HIGHLIGHTED CONTENT ---
   const contentParts = useMemo(() => {
     if (!searchQuery.trim()) return [{ text: content, highlight: false }];
 
-    const regex = new RegExp(`(${searchQuery.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")})`, "gi");
+    const escaped = searchQuery.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+    const regex = new RegExp(`(${escaped})`, "gi");
+
     const parts: { text: string; highlight: boolean }[] = [];
     let lastIndex = 0;
 
@@ -78,7 +88,23 @@ const NoteEditor = ({
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 500 }}
         >
-          <View className="px-4 pt-6 flex-1">
+          <View className="px-4 pt-4 flex-1">
+            {/* META INFO */}
+            {(createdAt || updatedAt) && (
+              <View className="mb-3">
+                {createdAt && (
+                  <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    Created: {formatDate(createdAt)}
+                  </Text>
+                )}
+                {updatedAt && (
+                  <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    Updated: {formatDate(updatedAt)}
+                  </Text>
+                )}
+              </View>
+            )}
+
             {/* Title */}
             <TextInput
               ref={titleRef}
@@ -94,16 +120,16 @@ const NoteEditor = ({
 
             {/* Content */}
             {searchQuery.trim() ? (
-              // Render highlighted content
-              <ScrollView
-                ref={scrollRef}
-                className="min-h-[500px]"
-              >
+              <ScrollView ref={scrollRef} className="min-h-[500px]">
                 <Text className="text-base leading-6 text-black dark:text-white">
                   {contentParts.map((part, idx) => (
                     <Text
                       key={idx}
-                      className={part.highlight ? "bg-yellow-300 dark:bg-yellow-600" : ""}
+                      className={
+                        part.highlight
+                          ? "bg-yellow-300 dark:bg-yellow-600"
+                          : ""
+                      }
                     >
                       {part.text}
                     </Text>
@@ -111,7 +137,6 @@ const NoteEditor = ({
                 </Text>
               </ScrollView>
             ) : (
-              // Normal TextInput for editing
               <TextInput
                 ref={contentRef}
                 value={content}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { View, TouchableOpacity, Text, Share, TextInput, BackHandler } from "react-native";
+import { View, TouchableOpacity, Share, TextInput, BackHandler } from "react-native";
 import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NoteEditor from "./NoteEditor";
@@ -7,19 +7,23 @@ import ErrorCatch from "@/lib/error-catch";
 import { useAlert } from "@/context/AlertContext";
 import { useAppDispatch } from "@/hooks/redux";
 import { addLocal, replaceTempId, saveNote, updateLocal } from "@/redux/slices/note.slice";
+import { Searchbar } from "react-native-paper";
+import { useTheme } from "@/context/ThemeContext";
 
 type NoteFormProps = {
   initialTitle?: string;
   initialContent?: string;
   noteId?: string; // optional for edit
-  buttonText?: string; // e.g. "Save" or "Update"
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 };
 
 export default function NoteForm({
   initialTitle = "",
   initialContent = "",
   noteId,
-  buttonText = "Save",
+  createdAt,
+  updatedAt
 }: NoteFormProps) {
   const router = useRouter();
 
@@ -36,6 +40,7 @@ export default function NoteForm({
   }, [title, content]);
 
   const dispatch = useAppDispatch();
+  const theme = useTheme()?.theme;
   const { setAlert } = useAlert();
 
   const isDirtyRef = useRef(false);
@@ -213,23 +218,27 @@ export default function NoteForm({
             <TouchableOpacity onPress={handleShare}>
               <MaterialCommunityIcons name="share-variant" size={22} color="#2563EB" />
             </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => autoSaveNote()}>
-              <Text className="text-blue-500 font-semibold text-base">{buttonText}</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
         {/* SEARCH BAR */}
         {searchVisible && (
-          <View className="px-4 py-2 border-b border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-[#1C1C1E]">
-            <TextInput
+          <View className="p-2 border-b border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-[#1C1C1E]">
+            <Searchbar
+              ref={searchRef as any}
               placeholder="Search content..."
-              placeholderTextColor="#999"
               value={searchQuery}
-              ref={searchRef}
               onChangeText={setSearchQuery}
-              className="bg-white dark:bg-black rounded-md px-3 py-2 text-black dark:text-white"
+              elevation={0}
+              style={{
+                backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF",
+                borderRadius: 8,
+              }}
+              inputStyle={{
+                color: theme === "dark" ? "#FFFFFF" : "#000000",
+              }}
+              placeholderTextColor="#999"
+              iconColor={theme === "dark" ? "#FFFFFF" : "#000000"}
             />
           </View>
         )}
@@ -242,6 +251,8 @@ export default function NoteForm({
           setContent={setContent}
           autoFocus={true}
           searchQuery={searchQuery}
+          createdAt={createdAt}
+          updatedAt={updatedAt}
         />
       </View>
     </>

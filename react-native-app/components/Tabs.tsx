@@ -5,6 +5,7 @@ import AdminScreen from "../app/(app)/admin";
 import TodosScreen from "../app/(app)/todos";
 import React, { useMemo, useState } from "react";
 import { useUser } from '@/context/AuthContext';
+import { View, PanResponder } from 'react-native';
 
 const Tabs = () => {
   const { theme } = useTheme() as any;
@@ -53,24 +54,48 @@ const Tabs = () => {
     []
   );
 
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onMoveShouldSetPanResponder: (evt, gestureState) => {
+          // Only respond to horizontal swipes
+          return Math.abs(gestureState.dx) > 10 && Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+        },
+        onPanResponderRelease: (evt, gestureState) => {
+          const swipeThreshold = 50;
+
+          if (gestureState.dx > swipeThreshold && index > 0) {
+            // Swipe right - previous tab
+            setIndex(index - 1);
+          } else if (gestureState.dx < -swipeThreshold && index < routes.length - 1) {
+            // Swipe left - next tab
+            setIndex(index + 1);
+          }
+        },
+      }),
+    [index, routes.length]
+  );
+
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-      activeColor="#2563EB"
-      inactiveColor={isDark ? "#FFFFFF" : "#000000"}
-      barStyle={{
-        backgroundColor: isDark ? "#121314" : "#F3F4F6",
-        borderTopLeftRadius: 14,
-        borderTopRightRadius: 14,
-        elevation: 8,
-      }}
-      activeIndicatorStyle={{
-        backgroundColor: isDark ? "#2e4689a0" : "#DBEAFE",
-      }}
-      shifting={true}
-    />
+    <View style={{ flex: 1 }} {...panResponder.panHandlers}>
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+        activeColor="#2563EB"
+        inactiveColor={isDark ? "#FFFFFF" : "#000000"}
+        barStyle={{
+          backgroundColor: isDark ? "#121314" : "#F3F4F6",
+          borderTopLeftRadius: 14,
+          borderTopRightRadius: 14,
+          elevation: 8,
+        }}
+        activeIndicatorStyle={{
+          backgroundColor: isDark ? "#2e4689a0" : "#DBEAFE",
+        }}
+        shifting={true}
+      />
+    </View>
   );
 };
 

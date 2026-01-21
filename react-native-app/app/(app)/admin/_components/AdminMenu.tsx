@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "@/context/ThemeContext";
 import ConfirmationModal from "@/components/ui/Modal";
+import { useRouter } from "expo-router";
 
 type AdminMenuProps = {
   showMenu: boolean;
@@ -23,6 +24,8 @@ const AdminMenu = ({
   onDeleteSelected
 }: AdminMenuProps) => {
   const theme = useTheme()?.theme || "light";
+
+  const router = useRouter();
   const [confirmVisible, setConfirmVisible] = useState(false);
 
   const { textColor, bgColor } = useMemo(
@@ -89,6 +92,8 @@ const AdminMenu = ({
           }}
         />
 
+        <Divider />
+
         {editMode && onDeleteSelected && (
           <>
             <Divider />
@@ -101,6 +106,16 @@ const AdminMenu = ({
             />
           </>
         )}
+
+        {/* settings */}
+        <Menu.Item
+          title="Settings"
+          titleStyle={{ color: textColor, fontSize: 14 }}
+          onPress={() => {
+            setShowMenu(false);
+            router.push("/settings" as any);
+          }}
+        />
       </Menu>
 
       {/* Confirmation Modal */}

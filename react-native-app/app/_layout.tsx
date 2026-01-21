@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as PaperProvider } from "react-native-paper";
 import { InternetProvider } from "@/context/InternetProvider";
 import { AlertProvider } from "@/context/AlertContext";
@@ -13,15 +14,17 @@ export default function Layout() {
     <ThemeProvider>
       <InternetProvider>
         <AuthProvider>
-          <Provider store={store}>
-            <PaperProvider>
-              <AlertProvider>
-                <AuthGate>
-                  <RootSlot />
-                </AuthGate>
-              </AlertProvider>
-            </PaperProvider>
-          </Provider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <Provider store={store}>
+              <PaperProvider>
+                <AlertProvider>
+                  <AuthGate>
+                    <RootSlot />
+                  </AuthGate>
+                </AlertProvider>
+              </PaperProvider>
+            </Provider>
+          </GestureHandlerRootView>
         </AuthProvider>
       </InternetProvider>
     </ThemeProvider>

@@ -139,6 +139,8 @@ const NotesScreen = ({
                           id: item._id,
                           title: item.title,
                           content: item.content,
+                          createdAt: item.createdAt,
+                          updatedAt: item.updatedAt,
                         },
                       });
                     }
