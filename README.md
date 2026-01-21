@@ -4,6 +4,28 @@ NoteVault is a cross-platform mobile application built with **React Native (Expo
 
 ---
 
+## 📱 Download the App
+
+### Android APK
+
+Download the latest Android build directly:
+
+**[📥 Download NoteVault.apk](https://github.com/MoinMN/NoteVault/raw/main/NoteVault.apk)**
+
+Or scan this QR code to download:
+
+<p align="center">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/MoinMN/NoteVault/raw/main/NoteVault.apk" alt="Download APK QR Code" width="200"/>
+</p>
+
+### Expo Build
+
+View the build on Expo:
+
+**[🔗 Expo Build Link](https://expo.dev/accounts/im_moin/projects/notevault/builds/172f863c-8332-49d3-b8ac-e879b288354d)**
+
+---
+
 ## 📋 Table of Contents
 
 - [Features](#features)
@@ -31,6 +53,9 @@ NoteVault is a cross-platform mobile application built with **React Native (Expo
 - 🌓 Light & Dark mode support
 - 📱 Responsive UI for different screen sizes
 - 🔄 Real-time sync with backend API
+- 🔍 Search functionality for notes
+- 📌 Pin important notes
+- 📊 Multi-color avatars for users
 
 ---
 
@@ -51,14 +76,16 @@ NoteVault/
 │   ├── tsconfig.json
 │   └── .env.example
 │
-└── react-native-app/           # React Native (Expo) frontend
-    ├── app/                    # App screens & navigation
-    ├── components/             # Reusable UI components
-    ├── context/                # React Context for state
-    ├── api/                    # API service functions
-    ├── assets/                 # Images, fonts, etc.
-    ├── package.json
-    └── tsconfig.json
+├── react-native-app/           # React Native (Expo) frontend
+│   ├── app/                    # App screens & navigation
+│   ├── components/             # Reusable UI components
+│   ├── context/                # React Context for state
+│   ├── api/                    # API service functions
+│   ├── assets/                 # Images, fonts, etc.
+│   ├── package.json
+│   └── tsconfig.json
+│
+└── NoteVault.apk               # Latest Android build
 ```
 
 ---
@@ -71,8 +98,10 @@ NoteVault/
 - **TypeScript**
 - **React Navigation** (for routing)
 - **React Context API** (state management)
+- **Redux Toolkit** (advanced state management)
 - **Axios** (HTTP client)
 - **NativeWind** / **Tailwind CSS** (styling)
+- **React Native Paper** (Material Design components)
 - **Expo Vector Icons**
 
 ### Backend (Node.js)
@@ -84,6 +113,7 @@ NoteVault/
 - **bcrypt** (password hashing)
 - **dotenv** (environment configuration)
 - **express-validator** (input validation)
+- **Nodemailer** (email functionality)
 
 ---
 
@@ -117,7 +147,7 @@ NoteVault/
    MONGO_URI=your_mongodb_connection_string
    JWT_SECRET=your_secret_key
    JWT_EXPIRES_IN=7d
-   SMTP_HOST=your_smyp_host
+   SMTP_HOST=your_smtp_host
    SMTP_USER=your_smtp_user
    DEV_EMAIL=your_dev_email
    SMTP_PASS=your_smtp_password
@@ -147,9 +177,9 @@ NoteVault/
    npm install
    ```
 
-3. Update a `lib/api.tsx` file in the `react-native-app` directory:
+3. Update `lib/api.tsx` file in the `react-native-app` directory:
 
-   ```env
+   ```typescript
    baseURL=http://localhost:5000/api
    ```
 
@@ -166,6 +196,14 @@ NoteVault/
 ---
 
 ## 🚀 Running the App
+
+### Option 1: Download Pre-built APK (Android Only)
+
+1. Download the APK from the link above
+2. Install on your Android device
+3. Open NoteVault and start using!
+
+### Option 2: Run from Source
 
 1. **Start the Backend Server:**
 
@@ -227,7 +265,7 @@ PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 JWT_EXPIRES_IN=7d
-SMTP_HOST=your_smyp_host
+SMTP_HOST=your_smtp_host
 SMTP_USER=your_smtp_user
 DEV_EMAIL=your_dev_email
 SMTP_PASS=your_smtp_password
@@ -300,6 +338,14 @@ For questions or feedback, feel free to reach out:
 
 - **Email:** crichit45@gmail.com
 - **GitHub:** [MoinMN](https://github.com/MoinMN)
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ by **PixelMint**
+- Powered by **React Native** and **Expo**
+- Backend by **Node.js** and **MongoDB**
 
 ---
 
