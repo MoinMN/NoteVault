@@ -15,19 +15,16 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      required: true,
       // required ONLY for credentials login
       select: false,
     },
-    googleId: {
+    role: {
       type: String,
-      unique: true,
-      sparse: true, // allows null for non-google users
-    },
-    authProvider: {
-      type: String,
-      enum: ["credentials", "google"],
       required: true,
-    },
+      enum: ["user", "admin"],
+      default: "user"
+    }
   },
   { timestamps: true }
 );

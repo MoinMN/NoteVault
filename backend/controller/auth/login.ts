@@ -33,7 +33,7 @@ const UserLogin = async (req: AuthRequest, res: Response) => {
     const JWT_EXPIRES = (process.env.JWT_EXPIRES_IN || "7d") as jwt.SignOptions["expiresIn"];
 
     const token = jwt.sign(
-      { userId: userExist._id.toString(), email: userExist.email, name: userExist.name },
+      { userId: userExist._id.toString(), email: userExist.email, name: userExist.name, role: userExist.role },
       JWT_SECRET,
       { expiresIn: JWT_EXPIRES }
     );

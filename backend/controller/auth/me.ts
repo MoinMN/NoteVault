@@ -25,6 +25,7 @@ const AuthMe = async (req: AuthRequest, res: Response) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role
       },
     });
   } catch (error) {

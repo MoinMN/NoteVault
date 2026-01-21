@@ -22,13 +22,6 @@ const sendWelcomeEmail = async (email: string, name: string) => {
             <li>Organize notes with tags and folders</li>
           </ul>
 
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="https://yourapp.com/login" 
-               style="background-color: #2563EB; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: bold;">
-              Go to NoteVault
-            </a>
-          </div>
-
           <p style="font-size: 14px; color: #6B7280; text-align: center; margin-top: 20px;">
             If you have any questions, feel free to reply to this email or contact our support team.
           </p>

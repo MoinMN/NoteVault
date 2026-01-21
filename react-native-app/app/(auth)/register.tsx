@@ -228,7 +228,7 @@ export default function Register() {
               }}
               right={
                 <PaperInput.Icon
-                  icon={showPassword ? "eye-off" : "eye"}
+                  icon={showPassword ? "eye" : "eye-off"}
                   size={18}
                   onPress={() => setShowPassword((prev) => !prev)}
                   color={theme === "dark" ? "#D1D5DB" : "#111827"}
@@ -258,7 +258,7 @@ export default function Register() {
               }}
               right={
                 <PaperInput.Icon
-                  icon={showConfirmPassword ? "eye-off" : "eye"}
+                  icon={showConfirmPassword ? "eye" : "eye-off"}
                   size={18}
                   onPress={() => setShowConfirmPassword((prev) => !prev)}
                   color={theme === "dark" ? "#D1D5DB" : "#111827"}

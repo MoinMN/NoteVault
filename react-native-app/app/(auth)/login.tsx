@@ -122,7 +122,7 @@ const Login = () => {
               }}
               right={
                 <PaperInput.Icon
-                  icon={showPassword ? "eye-off" : "eye"}
+                  icon={showPassword ? "eye" : "eye-off"}
                   size={18}
                   onPress={() => setShowPassword((prev) => !prev)}
                   color={theme === "dark" ? "#D1D5DB" : "#111827"}

@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useUser } from "@/context/AuthContext";
 import ThemeOption from "./_components/ThemeOption";
 import BackButton from "@/components/BackButton";
+import { Avatar } from "react-native-paper";
 
 const Settings = () => {
   const router = useRouter();
@@ -57,11 +58,20 @@ const Settings = () => {
       >
         {/* Profile */}
         <View className="bg-gray-100 dark:bg-[#1C1C1E] m-4 px-2 py-4 rounded-xl shadow flex-row items-center justify-between">
-          <View className="w-16 h-16 rounded-full bg-blue-500 items-center justify-center">
-            <Text className="text-white text-2xl font-bold">
-              {getInitials(user?.name || "MMN")}
-            </Text>
-          </View>
+          {/* Avatar */}
+          <Avatar.Text
+            size={64}
+            label={getInitials(user?.name || "MMN")}
+            style={{
+              backgroundColor: "#3B82F6", // blue-500
+            }}
+            labelStyle={{
+              color: "white",
+              fontWeight: "700",
+            }}
+          />
+
+          {/* User Info */}
           <View className="flex-1 ml-4">
             <Text className="text-xl font-bold text-black dark:text-white">
               {user?.name}
@@ -70,9 +80,11 @@ const Settings = () => {
               {user?.email}
             </Text>
           </View>
+
+          {/* Logout */}
           <TouchableOpacity
             onPress={handleLogout}
-            className="bg-red-500 px-2 py-1 rounded-md items-center"
+            className="bg-red-500 px-3 py-1.5 rounded-md items-center"
           >
             <Text className="text-white font-semibold text-sm">Logout</Text>
           </TouchableOpacity>
