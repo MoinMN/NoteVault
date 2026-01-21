@@ -22,7 +22,7 @@ Or scan this QR code to download:
 
 View the build on Expo:
 
-**[🔗 Expo Build Link](https://expo.dev/accounts/im_moin/projects/notevault/builds/172f863c-8332-49d3-b8ac-e879b288354d){:target="\_blank"}**
+**<a href="https://expo.dev/accounts/im_moin/projects/notevault/builds/172f863c-8332-49d3-b8ac-e879b288354d" target="_blank">🔗 Expo Build Link</a>**
 
 ---
 
