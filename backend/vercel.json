@@ -1,24 +1,20 @@
 {
-  "redirects": [
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/index"
+    },
     {
       "source": "/privacy",
-      "destination": "/privacy.html",
-      "permanent": true
+      "destination": "/api/privacy"
     },
     {
       "source": "/terms",
-      "destination": "/terms.html",
-      "permanent": true
+      "destination": "/api/terms"
     },
     {
       "source": "/about",
-      "destination": "/about.html",
-      "permanent": true
-    },
-    {
-      "source": "/",
-      "destination": "/index.html",
-      "permanent": true
+      "destination": "/api/about"
     }
   ]
 }
