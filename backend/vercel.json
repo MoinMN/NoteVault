@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/about",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/privacy",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/terms",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/contact",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ]
+}
