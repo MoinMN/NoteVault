@@ -21,13 +21,23 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-5 text-purple-300">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-5 text-purple-300">
+              Quick Links
+            </h3>
+
             <ul className="space-y-3">
-              {['Home', 'About', 'Privacy Policy', 'Terms & Conditions'].map((item, idx) => (
-                <li key={idx}>
-                  <a href={`/${item === 'Home' ? '' : item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`}
-                    className="text-gray-300 hover:text-white hover:translate-x-1 inline-block transition-all duration-300">
-                    → {item}
+              {[
+                { title: "Home", route: "/" },
+                { title: "About", route: "/about" },
+                { title: "Privacy Policy", route: "/privacy" },
+                { title: "Terms & Conditions", route: "/terms" },
+              ].map((link) => (
+                <li key={link.route}>
+                  <a
+                    href={link.route}
+                    className="text-gray-300 hover:text-white hover:translate-x-1 inline-block transition-all duration-300"
+                  >
+                    → {link.title}
                   </a>
                 </li>
               ))}
