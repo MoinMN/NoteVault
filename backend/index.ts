@@ -11,8 +11,11 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cors());
 
+// Serve static files from public directory
 const pages = path.join(__dirname, "public");
+app.use(express.static(pages));
 
+// Routes without .html extension
 app.get("/", (_, res) =>
   res.sendFile(path.join(pages, "index.html"))
 );
