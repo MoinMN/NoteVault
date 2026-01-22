@@ -11,24 +11,32 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cors());
 
-// static pages (for Expo WebView)
-app.use(express.static(path.join(__dirname, "public")));
+const pages = path.join(__dirname, "public");
 
 app.get("/", (_, res) =>
-  res.sendFile(path.join(__dirname, "public/index.html"))
+  res.sendFile(path.join(pages, "index.html"))
 );
+
 app.get("/privacy", (_, res) =>
-  res.sendFile(path.join(__dirname, "public/privacy.html"))
+  res.sendFile(path.join(pages, "privacy.html"))
 );
+
 app.get("/terms", (_, res) =>
-  res.sendFile(path.join(__dirname, "public/terms.html"))
+  res.sendFile(path.join(pages, "terms.html"))
 );
+
 app.get("/contact", (_, res) =>
-  res.sendFile(path.join(__dirname, "public/contact.html"))
+  res.sendFile(path.join(pages, "contact.html"))
 );
+
 app.get("/about", (_, res) =>
-  res.sendFile(path.join(__dirname, "public/about.html"))
+  res.sendFile(path.join(pages, "about.html"))
 );
+
+// ❌ block .html access explicitly
+app.get("*.html", (_, res) => {
+  res.status(404).send("Not Found");
+});
 
 // database connect first
 import connectDB from "./config/mongodb.js";
