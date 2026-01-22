@@ -33,11 +33,6 @@ app.get("/about", (_, res) =>
   res.sendFile(path.join(pages, "about.html"))
 );
 
-// ❌ block .html access explicitly
-app.get("*.html", (_, res) => {
-  res.status(404).send("Not Found");
-});
-
 // database connect first
 import connectDB from "./config/mongodb.js";
 await connectDB();
