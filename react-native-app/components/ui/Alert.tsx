@@ -1,5 +1,6 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useEffect } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 
 type AlertType = "success" | "error" | "warning" | "info";
 
@@ -29,14 +30,28 @@ export default function Alert({
   }, [onClose, duration]);
 
   return (
-    <View className="absolute top-14 w-full items-center z-50">
+    <View className="absolute top-14 w-full items-center z-50 px-4">
       <View
-        className={`border-l-4 p-3 rounded-md ${alertStyles[type]} shadow-md`}
-        style={{ minWidth: 200, maxWidth: '90%' }}
+        className={`flex-row items-center justify-between border-l-4 px-4 py-3 rounded-xl ${alertStyles[type]} shadow-lg`}
+        style={{
+          minWidth: 240,
+          maxWidth: "100%",
+          elevation: 6, // Android shadow
+        }}
       >
-        <Text className="font-medium text-sm text-center">
+        {/* Message */}
+        <Text className="flex-1 text-sm font-medium pr-3">
           {message}
         </Text>
+
+        {/* Close Icon */}
+        <TouchableOpacity onPress={onClose} hitSlop={10}>
+          <MaterialIcons
+            name="close"
+            size={18}
+            color="rgba(0,0,0,0.6)"
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );

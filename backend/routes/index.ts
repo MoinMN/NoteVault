@@ -12,7 +12,7 @@ const router = express.Router();
 router.use("/auth", AuthRoute);
 router.use("/note", authMiddleware, NoteRoute);
 router.use("/todo", authMiddleware, ToDoRoute);
-router.use("/support", authMiddleware, SupportRoute);
+router.use("/support", SupportRoute);
 router.use("/admin", authMiddleware, isAdmin, AdminRoute);
 
 export default router;

@@ -79,6 +79,9 @@ const noteSlice = createSlice({
       const index = state.notes.findIndex(n => n._id === action.payload.tempId);
       if (index !== -1) state.notes[index] = action.payload.realNote;
     },
+    clearLocalNote: (state) => {
+      state.notes = [];
+    }
   },
   extraReducers: builder => {
     builder
@@ -93,5 +96,11 @@ const noteSlice = createSlice({
   },
 });
 
-export const { addLocal, updateLocal, deleteLocal, replaceTempId } = noteSlice.actions;
+export const {
+  addLocal,
+  updateLocal,
+  deleteLocal,
+  replaceTempId,
+  clearLocalNote
+} = noteSlice.actions;
 export default noteSlice.reducer;

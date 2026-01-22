@@ -6,13 +6,20 @@ import { useUser } from "@/context/AuthContext";
 import ThemeOption from "./_components/ThemeOption";
 import BackButton from "@/components/BackButton";
 import { Avatar } from "react-native-paper";
+import { useAppDispatch } from "@/hooks/redux";
+import { clearLocalNote } from "@/redux/slices/note.slice";
+import { clearLocalTodo } from "@/redux/slices/todo.slice";
 
 const Settings = () => {
   const router = useRouter();
 
   const { user, logout } = useUser();
 
+  const dispatch = useAppDispatch();
+
   const handleLogout = async () => {
+    dispatch(clearLocalNote());
+    dispatch(clearLocalTodo());
     await logout();
     router.replace("/login");
   };

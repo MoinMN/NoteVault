@@ -6,13 +6,14 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  role: "user" | "admin"
+  role: "user" | "admin";
 };
 
 type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
   loading: boolean;
+  maintenance: boolean;
   refreshAuth: () => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -28,10 +29,15 @@ export const useUser = () => useContext(AuthContext);
 const TOKEN_KEY = "auth_token";
 
 export function AuthProvider({ children }: Props) {
+  const [maintenance, setMaintenance] = useState(false);
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   const loadUserFromToken = async () => {
+    setLoading(true);
+    setMaintenance(false);
+
     try {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
 
@@ -48,14 +54,21 @@ export function AuthProvider({ children }: Props) {
         await SecureStore.deleteItemAsync(TOKEN_KEY);
         setUser(null);
       }
-    } catch {
+    } catch (error: any) {
+      if (!error?.response) {
+        setMaintenance(true);
+        return;
+      }
+
       await SecureStore.deleteItemAsync(TOKEN_KEY);
       setUser(null);
+    } finally {
+      setLoading(false); 
     }
   };
 
   useEffect(() => {
-    loadUserFromToken().finally(() => setLoading(false));
+    loadUserFromToken();
   }, []);
 
   const refreshAuth = async () => {
@@ -72,6 +85,7 @@ export function AuthProvider({ children }: Props) {
       value={{
         user,
         isAuthenticated: !!user,
+        maintenance,
         loading,
         refreshAuth,
         logout,

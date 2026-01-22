@@ -112,6 +112,9 @@ const todoSlice = createSlice({
     deleteLocal: (state, action) => {
       state.todos = state.todos.filter(t => !action.payload.includes(t._id));
     },
+    clearLocalTodo: (state) => {
+      state.todos = [];
+    }
   },
   extraReducers: builder => {
     builder
@@ -124,5 +127,12 @@ const todoSlice = createSlice({
   },
 });
 
-export const { addLocal, updateLocal, toggleLocal, deleteLocal, replaceTempId } = todoSlice.actions;
+export const {
+  addLocal,
+  updateLocal,
+  toggleLocal,
+  deleteLocal,
+  replaceTempId,
+  clearLocalTodo
+} = todoSlice.actions;
 export default todoSlice.reducer;

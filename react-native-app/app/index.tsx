@@ -4,10 +4,15 @@ import { useRouter } from "expo-router";
 import { useUser } from "../context/AuthContext";
 
 export default function Index() {
-  const { user, loading } = useUser();
+  const { user, loading, maintenance } = useUser();
   const router = useRouter();
 
   useEffect(() => {
+    if (maintenance) {
+      router.replace("/maintenance");
+      return;
+    }
+
     if (!loading) {
       if (user) {
         router.replace("/(app)/todos");
@@ -15,7 +20,7 @@ export default function Index() {
         router.replace("/(auth)/login");
       }
     }
-  }, [user, loading, router]);
+  }, [user, loading, maintenance, router]);
 
   return (
     <View className="flex-1 justify-center items-center">

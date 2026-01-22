@@ -281,6 +281,18 @@ export default function Register() {
             </View>
           )}
 
+          {/* Terms & Conditions */}
+          <View className="mb-4 flex-row flex-wrap justify-center">
+            <Text className="text-sm text-gray-600 dark:text-gray-400">
+              By signing up, you agree to our{" "}
+            </Text>
+            <Link href="https://notevault.moinnaik.bio/terms" asChild>
+              <Text className="text-sm text-blue-600 dark:text-blue-400 font-semibold">
+                Terms & Conditions
+              </Text>
+            </Link>
+          </View>
+
           {/* Sign Up Button */}
           <Button
             mode="contained"
