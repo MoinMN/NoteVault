@@ -4,6 +4,7 @@ import TermsPage from "./pages/Terms";
 import AboutPage from "./pages/About";
 import HomePage from "./pages/Home";
 import ContactPage from "./pages/Contact";
+import NotFoundPage from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -13,6 +14,8 @@ export default function App() {
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
+
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
