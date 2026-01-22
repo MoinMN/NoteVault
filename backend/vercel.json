@@ -1,39 +1,24 @@
 {
-  "version": 2,
-  "builds": [
+  "redirects": [
     {
-      "src": "index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/index.js"
+      "source": "/privacy",
+      "destination": "/privacy.html",
+      "permanent": true
     },
     {
-      "src": "/about",
-      "dest": "/index.js"
+      "source": "/terms",
+      "destination": "/terms.html",
+      "permanent": true
     },
     {
-      "src": "/privacy",
-      "dest": "/index.js"
+      "source": "/about",
+      "destination": "/about.html",
+      "permanent": true
     },
     {
-      "src": "/terms",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/contact",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.js"
+      "source": "/",
+      "destination": "/index.html",
+      "permanent": true
     }
   ]
 }
