@@ -1,11 +1,16 @@
-import { Request, Response } from "express";
-import fs from "fs";
+import { readFileSync } from "fs";
 import path from "path";
+import { VercelRequest, VercelResponse } from "@vercel/node";
 
-export default async function handler(req: Request, res: Response) {
-  const filePath = path.join(process.cwd(), "public", "about.html");
-  const html = fs.readFileSync(filePath, "utf-8");
-  
+export default function handler(
+  req: VercelRequest,
+  res: VercelResponse
+) {
+  const html = readFileSync(
+    path.join(process.cwd(), "public", "about.html"),
+    "utf-8"
+  );
+
   res.setHeader("Content-Type", "text/html");
   res.status(200).send(html);
 }
