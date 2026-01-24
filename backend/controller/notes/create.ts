@@ -10,8 +10,8 @@ const CreateNote = async (req: AuthRequest, res: Response) => {
     }
 
     const { title, content } = req.body;
-    if (!title || !content) {
-      return res.status(400).json({ success: false, msg: "Title & Content is mandatory!" });
+    if (!title && !content) {
+      return res.status(400).json({ success: false, msg: "Title or Content is mandatory!" });
     }
 
     const savedNote = await Notes.create({ title, content, userId: currUser.userId });
