@@ -1,5 +1,7 @@
 import { AuthRequest } from "../../middleware/auth.middleware.js";
 import User from "../../model/user.model.js";
+import Todo from "../../model/todo.model.js";
+import Note from "../../model/note.model.js";
 import { Response } from "express";
 import mongoose from "mongoose";
 
@@ -28,6 +30,17 @@ const deleteUsers = async (req: AuthRequest, res: Response) => {
       });
     }
 
+    // 1️⃣ Delete todos of users
+    await Todo.deleteMany({
+      userId: { $in: validIds },
+    });
+
+    // 2️⃣ Delete notes of users
+    await Note.deleteMany({
+      userId: { $in: validIds },
+    });
+
+    // 3️⃣ Delete users
     const result = await User.deleteMany({
       _id: { $in: validIds },
     });

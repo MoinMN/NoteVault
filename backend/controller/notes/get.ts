@@ -11,7 +11,7 @@ const GetNotesByUser = async (req: AuthRequest, res: Response) => {
 
     const notes = await Notes.find({ userId: currUser?.userId });
 
-    return res.status(201).json({ success: true, notes });
+    return res.status(200).json({ success: true, notes });
   } catch (error) {
     console.log(error);
     return res

@@ -12,7 +12,7 @@ const GetTodosByUser = async (req: AuthRequest, res: Response) => {
     const todos = await Todos.find({ userId: currUser?.userId });
     const count = await Todos.countDocuments({ userId: currUser?.userId });
 
-    return res.status(201).json({ success: true, todos, count });
+    return res.status(200).json({ success: true, todos, count });
   } catch (error) {
     console.log(error);
     return res
