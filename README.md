@@ -10,7 +10,7 @@ NoteVault is a cross-platform mobile application built with **React Native (Expo
 
 Download the latest Android build directly:
 
-**[📥 Download NoteVault.apk](https://github.com/MoinMN/NoteVault/blob/main/NoteVault.apk)**
+**[📥 Download NoteVault.apk](https://github.com/MoinMN/NoteVault/blob/main/backend/public/apk/NoteVault.apk)**
 
 Or scan this QR code to download:
 
