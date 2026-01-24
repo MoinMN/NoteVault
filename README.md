@@ -4,30 +4,39 @@ NoteVault is a cross-platform mobile application built with **React Native (Expo
 
 ---
 
+## 🌐 Web App
+
+Visit our promotional website and explore NoteVault online:
+
+**[🌐 NoteVault Web App](https://notevault.moinnaik.bio)**
+
+---
+
 ## 📱 Download the App
 
 ### Android APK
 
 Download the latest Android build directly:
 
-**[📥 Download NoteVault.apk](https://github.com/MoinMN/NoteVault/blob/main/backend/public/apk/NoteVault.apk)**
+**[📥 Download NoteVault.apk](https://github.com/MoinMN/NoteVault/raw/main/backend/public/apk/NoteVault.apk)**
 
 Or scan this QR code to download:
 
 <p align="center">
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/MoinMN/NoteVault/blob/main/backend/public/apk/NoteVault.apk" alt="Download APK QR Code" width="200"/>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/MoinMN/NoteVault/raw/main/backend/public/apk/NoteVault.apk" alt="Download APK QR Code" width="200"/>
 </p>
 
 ### Expo Build
 
 View the build on Expo:
 
-**<a href="https://expo.dev/accounts/im_moin/projects/notevault/builds/df18b7fb-a95b-4888-9113-306cfea2425f" target="_blank">🔗 Expo Build Link</a>**
+**[🔗 Expo Build Link](https://expo.dev/accounts/im_moin/projects/notevault/builds/df18b7fb-a95b-4888-9113-306cfea2425f)**
 
 ---
 
 ## 📋 Table of Contents
 
+- [Web App](#web-app)
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
@@ -40,6 +49,7 @@ View the build on Expo:
 - [Scripts](#scripts)
 - [Contributing](#contributing)
 - [License](#license)
+- [Important Links](#important-links)
 
 ---
 
@@ -72,6 +82,9 @@ NoteVault/
 │   │   ├── middleware/         # Auth & validation middleware
 │   │   ├── utils/              # Helper functions
 │   │   └── app.ts              # Express app setup
+│   ├── public/
+│   │   └── apk/
+│   │       └── NoteVault.apk   # Latest Android build
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── .env.example
@@ -81,11 +94,12 @@ NoteVault/
 │   ├── components/             # Reusable UI components
 │   ├── context/                # React Context for state
 │   ├── api/                    # API service functions
+│   ├── lib/                    # Library files (api.tsx)
 │   ├── assets/                 # Images, fonts, etc.
 │   ├── package.json
 │   └── tsconfig.json
 │
-└── NoteVault.apk               # Latest Android build
+└── LICENSE                     # License file
 ```
 
 ---
@@ -177,10 +191,10 @@ NoteVault/
    npm install
    ```
 
-3. Update `lib/api.tsx` file in the `react-native-app` directory:
+3. Update the `lib/api.tsx` file in the `react-native-app` directory with your backend URL:
 
    ```typescript
-   baseURL=http://localhost:5000/api
+   baseURL: "http://localhost:5000/api"
    ```
 
 4. Start the Expo development server:
@@ -189,7 +203,7 @@ NoteVault/
    npm start
    ```
 
-5. Use **Expo Go** app on your mobile device to scan the QR code, or run on an emulator:
+5. Use the **Expo Go** app on your mobile device to scan the QR code, or run on an emulator:
    - **iOS Simulator**: Press `i`
    - **Android Emulator**: Press `a`
 
@@ -200,7 +214,7 @@ NoteVault/
 ### Option 1: Download Pre-built APK (Android Only)
 
 1. Download the APK from the link above
-2. Install on your Android device
+2. Install it on your Android device
 3. Open NoteVault and start using!
 
 ### Option 2: Run from Source
@@ -332,12 +346,23 @@ See the [LICENSE](LICENSE) file for full terms.
 
 ---
 
+## 🔗 Important Links
+
+- **[🌐 NoteVault Web App](https://notevault.moinnaik.bio)** - Promotional website
+- **[📜 Terms of Service](https://notevault.moinnaik.bio/terms)** - Terms and conditions
+- **[🔒 Privacy Policy](https://notevault.moinnaik.bio/privacy)** - Privacy policy
+- **[ℹ️ About Us](https://notevault.moinnaik.bio/about)** - Learn more about NoteVault
+- **[📧 Contact](https://notevault.moinnaik.bio/contact)** - Get in touch with us
+
+---
+
 ## 📧 Contact
 
 For questions or feedback, feel free to reach out:
 
 - **Email:** crichit45@gmail.com
 - **GitHub:** [MoinMN](https://github.com/MoinMN)
+- **Website:** [notevault.moinnaik.bio](https://notevault.moinnaik.bio)
 
 ---
 
