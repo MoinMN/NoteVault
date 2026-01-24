@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, ReactNode, useContext } from "react";
+import { createContext, useEffect, useState, ReactNode, useContext, useCallback } from "react";
 import * as SecureStore from "expo-secure-store";
 import api from "../lib/api";
 
@@ -30,23 +30,27 @@ const TOKEN_KEY = "auth_token";
 
 export function AuthProvider({ children }: Props) {
   const [maintenance, setMaintenance] = useState(false);
-
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const loadUserFromToken = async () => {
-    setLoading(true);
-    setMaintenance(false);
-
+  const loadUserFromToken = useCallback(async () => {
     try {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
 
       if (!token) {
         setUser(null);
+        setLoading(false);
         return;
       }
 
-      const res = await api.get("/auth/me");
+      // Add timeout to prevent infinite loading
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Request timeout")), 10000)
+      );
+
+      const apiPromise = api.get("/auth/me");
+
+      const res = await Promise.race([apiPromise, timeoutPromise]) as any;
 
       if (res.data.success) {
         setUser(res.data.user);
@@ -55,23 +59,26 @@ export function AuthProvider({ children }: Props) {
         setUser(null);
       }
     } catch (error: any) {
-      if (!error?.response) {
+      // Network error or timeout - show maintenance
+      if (!error?.response || error.message === "Request timeout") {
         setMaintenance(true);
-        return;
+        setUser(null);
+      } else {
+        // Other errors - clear token
+        await SecureStore.deleteItemAsync(TOKEN_KEY);
+        setUser(null);
       }
-
-      await SecureStore.deleteItemAsync(TOKEN_KEY);
-      setUser(null);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadUserFromToken();
-  }, []);
+  }, [loadUserFromToken]);
 
   const refreshAuth = async () => {
+    setLoading(true);
     await loadUserFromToken();
   };
 
@@ -95,4 +102,3 @@ export function AuthProvider({ children }: Props) {
     </AuthContext.Provider>
   );
 }
-

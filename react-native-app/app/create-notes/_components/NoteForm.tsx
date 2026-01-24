@@ -13,7 +13,7 @@ import { useTheme } from "@/context/ThemeContext";
 type NoteFormProps = {
   initialTitle?: string;
   initialContent?: string;
-  noteId?: string; // optional for edit
+  noteId?: string;
   createdAt?: string | Date;
   updatedAt?: string | Date;
 };
@@ -30,85 +30,135 @@ export default function NoteForm({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
-  const titleRef = useRef(title);
-  const contentRef = useRef(content);
-
-  useEffect(() => {
-    titleRef.current = title;
-    contentRef.current = content;
-    isDirtyRef.current = true;
-  }, [title, content]);
-
   const dispatch = useAppDispatch();
   const theme = useTheme()?.theme;
   const { setAlert } = useAlert();
 
-  const isDirtyRef = useRef(false);
-  const saveTimeout = useRef<number | null>(null);
+  // Refs for tracking state
+  const saveTimeout = useRef<NodeJS.Timeout | number | null>(null);
+  const isSavingRef = useRef(false); // Prevent concurrent saves
+  const currentNoteIdRef = useRef(noteId); // Track current note ID
+  const lastSavedDataRef = useRef({ title: initialTitle, content: initialContent });
 
-  const lastSaved = useRef({ title: initialTitle, content: initialContent });
-
-  // --- SEARCH STATE ---
+  // Search state
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<TextInput>(null);
 
-  // Focus the search input when search bar becomes visible
+  // Update current note ID ref when noteId changes
+  useEffect(() => {
+    currentNoteIdRef.current = noteId;
+  }, [noteId]);
+
+  // Focus search input when visible
   useEffect(() => {
     if (searchVisible) {
       const timer = setTimeout(() => {
         searchRef.current?.focus();
-      }, 100); // slight delay to let the UI render
+      }, 100);
       return () => clearTimeout(timer);
     }
   }, [searchVisible]);
 
+  // Update state when props change
   useEffect(() => {
     setTitle(initialTitle);
     setContent(initialContent);
+    lastSavedDataRef.current = { title: initialTitle, content: initialContent };
   }, [initialTitle, initialContent]);
 
-  const handleBack = async () => {
-    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+  const hasChanges = () => {
+    return (
+      title !== lastSavedDataRef.current.title ||
+      content !== lastSavedDataRef.current.content
+    );
+  };
 
-    if (isDirtyRef.current) {
+  const autoSaveNote = async (force = false) => {
+    // Prevent concurrent saves
+    if (isSavingRef.current) {
+      return;
+    }
+
+    // Check if there's anything to save
+    if (!title.trim() && !content.trim()) {
+      return;
+    }
+
+    // Skip if no changes (unless forced)
+    if (!force && !hasChanges()) {
+      return;
+    }
+
+    isSavingRef.current = true;
+
+    try {
+      const dataToSave = { title, content };
+      lastSavedDataRef.current = dataToSave;
+
+      if (currentNoteIdRef.current) {
+        // Update existing note
+        dispatch(updateLocal({
+          id: currentNoteIdRef.current,
+          title: dataToSave.title,
+          content: dataToSave.content
+        }));
+
+        await dispatch(saveNote({
+          id: currentNoteIdRef.current,
+          title: dataToSave.title,
+          content: dataToSave.content
+        })).unwrap();
+      } else {
+        // Create new note (only once)
+        const tempId = `temp_${Date.now()}`;
+
+        // Add optimistic local entry
+        dispatch(addLocal({
+          _id: tempId,
+          title: dataToSave.title,
+          content: dataToSave.content,
+          createdAt: Date.now(),
+          updatedAt: Date.now()
+        }));
+
+        // Save to backend
+        const realNote = await dispatch(saveNote({
+          title: dataToSave.title,
+          content: dataToSave.content
+        })).unwrap();
+
+        // Replace temp ID with real ID
+        dispatch(replaceTempId({ tempId, realNote }));
+
+        // Update the current note ID ref to prevent duplicate saves
+        currentNoteIdRef.current = realNote._id;
+      }
+    } catch (err) {
+      ErrorCatch(err, setAlert);
+    } finally {
+      isSavingRef.current = false;
+    }
+  };
+
+  const handleBack = async () => {
+    // Clear any pending auto-save
+    if (saveTimeout.current) {
+      clearTimeout(saveTimeout.current);
+      saveTimeout.current = null;
+    }
+
+    // Save if there are changes
+    if (hasChanges() && (title.trim() || content.trim())) {
       await autoSaveNote(true);
     }
 
     if (router.canGoBack()) {
       router.back();
     } else {
-      router.replace("/(app)/notes"); // fallback route
+      router.replace("/(app)/notes");
     }
   };
-
-  useEffect(() => {
-    const onBackPress = () => {
-      if (isDirtyRef.current) {
-        // Prevent default back
-        try {
-          autoSaveNote(true);
-        } catch (err) {
-          console.log("Error saving on back:", err);
-        }
-      }
-
-      // Now go back
-      if (router.canGoBack()) {
-        router.back();
-      } else {
-        router.replace("/(app)/notes"); // fallback route
-      }
-      return true; // indicate we handled the back
-    };
-
-    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
-      onBackPress();
-      return true; // important: prevent default until we call router.back()
-    });
-
-    return () => subscription.remove();
-  }, []);
 
   const handleShare = async () => {
     if (!title.trim() || !content.trim()) {
@@ -127,72 +177,37 @@ export default function NoteForm({
     }
   };
 
-  const autoSaveNote = async (force = false) => {
-    const t = titleRef.current;
-    const c = contentRef.current;
-
-    if (!isDirtyRef.current) return;
-    if (!t.trim() || !c.trim()) return;
-
-    if (!force &&
-      t === lastSaved.current.title &&
-      c === lastSaved.current.content
-    ) return;
-
-    lastSaved.current = { title: t, content: c };
-
-    if (noteId) {
-      // Optimistic UI update
-      dispatch(updateLocal({ id: noteId, title: t, content: c }));
-      // router.push("/(app)/notes");
-
-      try {
-        await dispatch(saveNote({ id: noteId, title: t, content: c })).unwrap();
-      } catch (err) {
-        ErrorCatch(err, setAlert);
-      }
-      isDirtyRef.current = false;
-      return;
-    }
-
-    // if creating new
-    const tempId = Date.now().toString();
-
-    // Optimistic UI add
-    dispatch(addLocal({
-      _id: tempId,
-      title: t,
-      content: c,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    }));
-
-    // router.push("/(app)/notes");
-
-    try {
-      const realNote = await dispatch(saveNote({ title: t, content: c })).unwrap();
-
-      dispatch(replaceTempId({ tempId, realNote }));
-    } catch (err) {
-      ErrorCatch(err, setAlert);
-    } finally {
-      isDirtyRef.current = false;
-    }
-  };
-
+  // Auto-save effect
   useEffect(() => {
-    isDirtyRef.current = true;
+    // Clear existing timeout
+    if (saveTimeout.current) {
+      clearTimeout(saveTimeout.current);
+    }
 
-    if (saveTimeout.current) clearTimeout(saveTimeout.current);
-
+    // Set new timeout for auto-save
     saveTimeout.current = setTimeout(() => {
       autoSaveNote();
     }, 1500);
 
+    // Cleanup
     return () => {
-      if (saveTimeout.current) clearTimeout(saveTimeout.current);
+      if (saveTimeout.current) {
+        clearTimeout(saveTimeout.current);
+      }
     };
   }, [title, content]);
+
+  // Handle hardware back button
+  useEffect(() => {
+    const onBackPress = () => {
+      handleBack();
+      return true;
+    };
+
+    const subscription = BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+    return () => subscription.remove();
+  }, [title, content]); // Include deps so handleBack has latest values
 
   return (
     <>

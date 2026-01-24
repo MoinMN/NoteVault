@@ -8,6 +8,7 @@ import { useAlert } from "@/context/AlertContext";
 import { fetchNotes } from "@/redux/slices/note.slice";
 import ErrorCatch from "@/lib/error-catch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loader from "@/components/ui/Loader";
 
 const SORT_BY_KEY = "@notes_sortBy";
 
@@ -17,7 +18,7 @@ export default function Todos() {
   const dispatch = useAppDispatch();
   const { setAlert } = useAlert();
 
-  const { notes } = useAppSelector(state => state.notes);
+  const { notes, loading } = useAppSelector(state => state.notes);
 
   const [showMenu, setShowMenu] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -71,6 +72,8 @@ export default function Todos() {
           />
         }
       />
+
+      {(loading && notes.length === 0) && <Loader />}
 
       <NotesScreen
         notes={notes}

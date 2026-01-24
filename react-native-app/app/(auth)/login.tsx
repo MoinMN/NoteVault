@@ -93,10 +93,10 @@ const Login = () => {
               placeholder="Enter your email"
               outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
               activeOutlineColor="#2563EB"
-              textColor={theme === "dark" ? "#D1D5DB" : "#111827"}
+              textColor={theme === "dark" ? "#FFFFFF" : "#111827"}
               placeholderTextColor={theme === "dark" ? "#A1A1AA" : "#6B7280"}
               style={{
-                backgroundColor: theme === "dark" ? "#111827" : "#D1D5DB",
+                backgroundColor: theme === "dark" ? "#111827" : "#FFFFFF",
               }}
             />
           </View>

@@ -8,6 +8,7 @@ import AdminMenu from "./_components/AdminMenu";
 import AdminUsersScreen from "./_components/AdminUsersScreen";
 import EditHead from "@/components/EditHead";
 import ConfirmationModal from "@/components/ui/Modal"; // <--- import
+import Loader from "@/components/ui/Loader";
 
 export default function Admin() {
   const { setAlert } = useAlert();
@@ -86,6 +87,9 @@ export default function Admin() {
           />
         }
       />
+
+      {loading && <Loader />}
+
 
       {editMode && (
         <EditHead
