@@ -15,7 +15,7 @@ Download the latest Android build directly:
 Or scan this QR code to download:
 
 <p align="center">
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/MoinMN/NoteVault/raw/main/NoteVault.apk" alt="Download APK QR Code" width="200"/>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/MoinMN/NoteVault/blob/main/backend/public/apk/NoteVault.apk" alt="Download APK QR Code" width="200"/>
 </p>
 
 ### Expo Build
