@@ -10,8 +10,11 @@ const UpdateNote = async (req: AuthRequest, res: Response) => {
     }
 
     const { id, title, content } = req.body;
-    if (!id || !title || !content) {
-      return res.status(400).json({ success: false, msg: "Note didn't reached to backend!" });
+    if (!id || (!title && !content)) {
+      return res.status(400).json({
+        success: false,
+        msg: "We couldn't process your note. Required information is missing."
+      });
     }
 
     const updatedNote = await Notes.findOneAndUpdate(
