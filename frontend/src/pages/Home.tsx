@@ -19,10 +19,10 @@ const HomePage: React.FC = () => {
     setShowNotification(true);
 
     window.open(
-      `${import.meta.env.VITE_API_BASE_URL}/apk`,
+      `https://github.com/MoinMN/NoteVault/releases/download/v26.1.22/NoteVault.apk`,
       "_blank",
       "noopener,noreferrer"
-    );
+    );  
 
     setTimeout(() => setShowNotification(false), 5000);
   };
