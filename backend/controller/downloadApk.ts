@@ -3,7 +3,10 @@ import path from "path";
 
 export const downloadApk = (req: Request, res: Response) => {
   try {
-    const filePath = path.join(__dirname, "../public/apk/NoteVault.apk");
+    const filePath = path.join(process.cwd(), "/public/apk/NoteVault.apk");
+
+    res.setHeader("Content-Type", "application/vnd.android.package-archive");
+    res.setHeader("Content-Disposition", "attachment; filename=NoteVault.apk");
 
     // Set headers to force download
     res.download(filePath, "NoteVault.apk", (err) => {

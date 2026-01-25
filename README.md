@@ -194,7 +194,7 @@ NoteVault/
 3. Update the `lib/api.tsx` file in the `react-native-app` directory with your backend URL:
 
    ```typescript
-   baseURL: "http://localhost:5000/api"
+   baseURL: "http://localhost:5000"
    ```
 
 4. Start the Expo development server:
