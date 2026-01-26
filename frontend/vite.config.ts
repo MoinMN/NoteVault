@@ -2,7 +2,7 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-const isVercel = !!process.env.VERCEL;
+const isVercel = !!process.env.VERCEL; // true on Vercel, false locally
 
 export default defineConfig(async ({ command }) => {
   const plugins: Plugin[] = [
@@ -10,9 +10,10 @@ export default defineConfig(async ({ command }) => {
     ...tailwindcss(),
   ];
 
-  // Only prerender locally, skip on Vercel
+  // Run prerender only for local builds
   if (command === "build" && !isVercel) {
     const { default: prerender } = await import("vite-plugin-prerender");
+
     plugins.push(
       prerender({
         staticDir: "dist",
@@ -27,7 +28,5 @@ export default defineConfig(async ({ command }) => {
     );
   }
 
-  return {
-    plugins,
-  };
+  return { plugins };
 });
