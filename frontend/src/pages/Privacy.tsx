@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+import useSEO from '../seo/useSEO';
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="mb-6 sm:mb-8">
@@ -17,6 +18,13 @@ const ListItem = ({ children }: { children: React.ReactNode }) => (
 );
 
 const PrivacyPolicyPage: React.FC = () => {
+  useSEO({
+    title: "Privacy Policy – NoteVault",
+    description:
+      "Read NoteVault’s privacy policy to understand how your data is collected, used, and protected.",
+    url: "https://notevault.moinnaik.bio/privacy",
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-purple-800">
       <div className="max-w-4xl mx-auto bg-white md:rounded-3xl shadow-2xl overflow-hidden">

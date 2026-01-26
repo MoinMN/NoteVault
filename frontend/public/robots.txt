@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://notevault.moinnaik.bio/sitemap.xml

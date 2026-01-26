@@ -1,11 +1,31 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig, type Plugin } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
-})
+export default defineConfig(async ({ command }) => {
+  const plugins: Plugin[] = [
+    ...react(),
+    ...tailwindcss(),
+  ];
+
+  if (command === "build") {
+    const { default: prerender } = await import("vite-plugin-prerender");
+
+    plugins.push(
+      prerender({
+        staticDir: "dist",
+        routes: [
+          "/",
+          "/about",
+          "/terms",
+          "/privacy",
+          "/contact",
+        ],
+      })
+    );
+  }
+
+  return {
+    plugins,
+  };
+});

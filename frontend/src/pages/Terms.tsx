@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+import useSEO from '../seo/useSEO';
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="mb-6 sm:mb-8">
@@ -23,6 +24,13 @@ const WarningBox = ({ children }: { children: React.ReactNode }) => (
 );
 
 const TermsPage: React.FC = () => {
+  useSEO({
+    title: "Terms & Conditions – NoteVault",
+    description:
+      "Review the terms and conditions for using the NoteVault notes and todo mobile application.",
+    url: "https://notevault.moinnaik.bio/terms",
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-purple-800">
       <div className="max-w-4xl mx-auto bg-white md:rounded-3xl shadow-2xl overflow-hidden">
