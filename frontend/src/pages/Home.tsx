@@ -7,16 +7,8 @@ import {
 } from 'lucide-react';
 import Footer from '../components/Footer';
 import AppNotFoundModal from '../components/AppNotFound';
-import useSEO from '../seo/useSEO';
 
 const HomePage: React.FC = () => {
-  useSEO({
-    title: "NoteVault – Secure Notes & Todo App",
-    description:
-      "NoteVault is a fast, secure notes and todo mobile app built for students and professionals.",
-    url: "https://notevault.moinnaik.bio/",
-  });
-
   const [showNotification, setShowNotification] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -120,7 +112,7 @@ const HomePage: React.FC = () => {
                     className="inline-block transition-transform hover:scale-105"
                   >
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                      src="/Google_Play_Store_badge_EN.svg"
                       alt="Get it on Google Play"
                       className="h-10 sm:h-12 md:h-14"
                     />

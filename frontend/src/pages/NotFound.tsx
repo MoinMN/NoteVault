@@ -1,16 +1,8 @@
 import React from 'react';
 import { Home, Search, FileText, ArrowLeft, Mail, AlertCircle } from 'lucide-react';
 import Footer from '../components/Footer';
-import useSEO from '../seo/useSEO';
 
 const NotFoundPage: React.FC = () => {
-  useSEO({
-    title: "Page Not Found – NoteVault",
-    description:
-      "The page you are looking for does not exist. Visit NoteVault to manage your notes and todos securely.",
-    url: "https://notevault.moinnaik.bio/404",
-  });
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 flex flex-col">
       {/* Main Content */}

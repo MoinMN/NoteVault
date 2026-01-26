@@ -2,16 +2,8 @@ import React, { useState } from 'react';
 import { Mail, Globe, Clock, Smartphone } from 'lucide-react';
 import Toast from '../components/Toast';
 import Footer from '../components/Footer';
-import useSEO from '../seo/useSEO';
 
 const ContactPage: React.FC = () => {
-  useSEO({
-    title: "Contact NoteVault – Support & Inquiries",
-    description:
-      "Contact the NoteVault team for support, feedback, or questions about the Notes and Todo app.",
-    url: "https://notevault.moinnaik.bio/contact",
-  });
-
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState<{
     show: boolean;

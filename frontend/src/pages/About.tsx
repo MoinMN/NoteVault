@@ -1,7 +1,6 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
-import useSEO from '../seo/useSEO';
 
 interface SectionProps {
   title: string;
@@ -32,13 +31,6 @@ const ListItem: React.FC<ListItemProps> = ({ children }) => {
 };
 
 const AboutPage: React.FC = () => {
-  useSEO({
-    title: "About NoteVault – Secure Notes & Todo App",
-    description:
-      "NoteVault is a secure and simple mobile app for managing notes and todos efficiently.",
-    url: "https://notevault.moinnaik.bio/about",
-  });
-
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-purple-600 to-purple-800">
