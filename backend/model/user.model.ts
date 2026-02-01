@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+
     email: {
       type: String,
       required: true,
@@ -13,18 +14,28 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
+
     password: {
       type: String,
-      required: true,
-      // required ONLY for credentials login
-      select: false,
+      select: false, // only for credentials login
     },
+
+    provider: {
+      type: String,
+      enum: ["credentials", "google"],
+      default: "credentials",
+    },
+
+    profileImage: {
+      type: String,
+      default: null,
+    },
+
     role: {
       type: String,
-      required: true,
       enum: ["user", "admin"],
-      default: "user"
-    }
+      default: "user",
+    },
   },
   { timestamps: true }
 );

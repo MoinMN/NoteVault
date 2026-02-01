@@ -17,13 +17,20 @@ const UserLogin = async (req: AuthRequest, res: Response) => {
     // by default password is excluded
     const userExist = await User.findOne({ email }).select("+password");
 
-    if (!userExist || !userExist.password) {
+    if (!userExist) {
       return res
         .status(401)
         .json({ success: false, msg: "Invalid Credentials!" });
     }
 
-    const isMatch = await bcrypt.compare(password, userExist?.password);
+    if (userExist.provider !== "credentials" || !userExist?.password) {
+      return res.status(400).json({
+        success: false,
+        msg: "Please login using Google",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, userExist.password);
     if (!isMatch) {
       return res
         .status(401)
