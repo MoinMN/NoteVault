@@ -6,6 +6,7 @@ import { useUser } from "@/context/AuthContext";
 import { useAlert } from "@/context/AlertContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import ErrorCatch from "@/lib/error-catch";
 
 export default function GoogleLoginButton() {
   const router = useRouter();
@@ -39,12 +40,9 @@ export default function GoogleLoginButton() {
       await SecureStore.setItemAsync("auth_token", res.data.token);
       await refreshAuth();
       router.replace("/todos");
-    } catch (err: any) {
-      console.log("Google SignIn Error:", err);
-      setAlert({
-        type: "error",
-        message: err.message || "Google Sign-In failed",
-      });
+    } catch (error: any) {
+      console.log("Google SignIn Error:", error);
+      ErrorCatch(error, setAlert);
     } finally {
       setLoading(false);
     }
