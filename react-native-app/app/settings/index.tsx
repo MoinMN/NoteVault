@@ -86,17 +86,24 @@ const Settings = () => {
         {/* Profile */}
         <View className="bg-gray-100 dark:bg-[#1C1C1E] m-4 px-2 py-4 rounded-xl shadow flex-row items-center justify-between">
           {/* Avatar */}
-          <Avatar.Text
-            size={64}
-            label={getInitials(user?.name || "MMN")}
-            style={{
-              backgroundColor: getAvatarColor(user?.name || "MMN"),
-            }}
-            labelStyle={{
-              color: "white",
-              fontWeight: "700",
-            }}
-          />
+          {user?.profileImage ? (
+            <Avatar.Image
+              size={64}
+              source={{ uri: user.profileImage }}
+            />
+          ) : (
+            <Avatar.Text
+              size={64}
+              label={getInitials(user?.name || "MMN")}
+              style={{
+                backgroundColor: getAvatarColor(user?.name || "MMN"),
+              }}
+              labelStyle={{
+                color: "white",
+                fontWeight: "700",
+              }}
+            />
+          )}
 
           {/* User Info */}
           <View className="flex-1 ml-4">
@@ -142,7 +149,7 @@ const Settings = () => {
 
           <View className="bg-gray-100 dark:bg-[#1C1C1E] px-4 py-3 rounded-xl mb-2 flex-row justify-between items-center">
             <Text className="text-black dark:text-white">Version</Text>
-            <Text className="text-gray-500 dark:text-gray-400">26.1.22</Text>
+            <Text className="text-gray-500 dark:text-gray-400">26.2.1</Text>
           </View>
 
           <Row text="About Notes" redirect="about" />

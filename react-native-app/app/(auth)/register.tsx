@@ -14,7 +14,8 @@ import { useAlert } from "@/context/AlertContext";
 import ErrorCatch from "@/lib/error-catch";
 import OTPInput from "@/components/OTPInput";
 import { checkPasswordComplexity } from "@/lib/PasswordCheck";
-import { Button, TextInput as PaperInput } from "react-native-paper";
+import { Button, Divider, TextInput as PaperInput } from "react-native-paper";
+import GoogleLoginButton from "@/components/GoogleSignInButton";
 
 export default function Register() {
   const router = useRouter();
@@ -73,7 +74,6 @@ export default function Register() {
       if (!res?.success) {
         return setAlert({ message: res?.msg, type: "warning" });
       }
-      setAlert({ message: "OTP Sent Successfully!", type: "success" });
       setShowOtp(true);
     } catch (error) {
       ErrorCatch(error, setAlert);
@@ -311,11 +311,11 @@ export default function Register() {
             }}
           >
             {loading ? (
-              <Text className="text-white font-semibold text-lg ml-2">
+              <Text className="text-white font-semibold text-md ml-2">
                 Creating account...
               </Text>
             ) : (
-              <Text className="text-white font-semibold text-lg">
+              <Text className="text-white font-semibold text-md">
                 Sign Up
               </Text>
             )}
@@ -331,6 +331,22 @@ export default function Register() {
                 Login
               </Text>
             </Link>
+          </View>
+
+          {/* Divider */}
+          <View className="flex-row items-center my-6">
+            <Divider style={{ flex: 1 }} />
+            <Text
+              className="mx-3 text-sm text-gray-500 dark:text-gray-400"
+              style={{ fontWeight: "500" }}
+            >
+              OR
+            </Text>
+            <Divider style={{ flex: 1 }} />
+          </View>
+
+          <View className="mb-7">
+            <GoogleLoginButton />
           </View>
 
         </ScrollView>

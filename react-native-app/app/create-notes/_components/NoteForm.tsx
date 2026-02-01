@@ -153,11 +153,7 @@ export default function NoteForm({
       await autoSaveNote(true);
     }
 
-    if (router.canGoBack()) {
-      router.back();
-    } else {
-      router.replace("/(app)/notes");
-    }
+    router.replace("/(app)/notes");
   };
 
   const handleShare = async () => {

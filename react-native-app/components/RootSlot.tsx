@@ -6,15 +6,21 @@ import { StatusBar } from "expo-status-bar";
 import { Slot } from "expo-router";
 import { useAlert } from "@/context/AlertContext";
 import Alert from "./ui/Alert";
+import { useEffect } from "react";
+import { configureGoogleSignIn } from "@/lib/GoogleSignIn";
 
 const RootSlot = () => {
   const { theme } = useTheme() as any;
   const { isConnected } = useInternet();
   const { alert, setAlert } = useAlert();
 
+  useEffect(() => {
+    configureGoogleSignIn();
+  }, []);
+
   if (!isConnected) {
     return <NoInternetScreen />;
-  }
+  };
 
   return (
     <SafeAreaView

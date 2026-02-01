@@ -1,14 +1,16 @@
-import { View, Text, Pressable, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, Text, Pressable, KeyboardAvoidingView, Platform, ScrollView, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, TextInput as PaperInput } from "react-native-paper";
+import { Button, TextInput as PaperInput, Divider } from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
 import { Link, useRouter } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "../../lib/api";
 import { useTheme } from "@/context/ThemeContext";
 import { useAlert } from "@/context/AlertContext";
 import { useUser } from "@/context/AuthContext";
 import ErrorCatch from "@/lib/error-catch";
+import GoogleLoginButton from "@/components/GoogleSignInButton";
+
 
 const Login = () => {
   const router = useRouter();
@@ -50,7 +52,32 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const waveAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(waveAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(waveAnim, {
+          toValue: -1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(waveAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.delay(1200),
+      ])
+    ).start();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-black justify-center">
@@ -71,10 +98,29 @@ const Login = () => {
           showsVerticalScrollIndicator={false}
         >
           {/* Title */}
-          <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Welcome Back 👋
-          </Text>
-          <Text className="text-gray-500 dark:text-gray-400 mb-8">
+          <View className="flex-row items-center mb-1">
+            <Text className="text-3xl font-extrabold text-gray-900 dark:text-white">
+              Welcome Back{" "}
+            </Text>
+
+            <Animated.Text
+              style={{
+                fontSize: 28,
+                transform: [
+                  {
+                    rotate: waveAnim.interpolate({
+                      inputRange: [-1, 1],
+                      outputRange: ["-20deg", "20deg"],
+                    }),
+                  },
+                ],
+              }}
+            >
+              👋
+            </Animated.Text>
+          </View>
+
+          <Text className="text-gray-500 dark:text-gray-400 mb-10">
             Sign in to continue
           </Text>
 
@@ -131,6 +177,17 @@ const Login = () => {
             />
           </View>
 
+          {/* Forgot Password link */}
+          <View className="flex-row justify-end mb-6">
+            <Link href="/forgot-password" asChild>
+              <Pressable>
+                <Text className="text-sm text-blue-600 dark:text-blue-400 font-semibold">
+                  Forgot Password?
+                </Text>
+              </Pressable>
+            </Link>
+          </View>
+
           {/* Login Button */}
           <Button
             mode="contained"
@@ -152,11 +209,11 @@ const Login = () => {
             }}
           >
             {loading ? (
-              <Text className="text-white font-semibold text-lg ml-2">
+              <Text className="text-white font-semibold text-md ml-2">
                 Logging in...
               </Text>
             ) : (
-              <Text className="text-white font-semibold text-lg">
+              <Text className="text-white font-semibold text-md">
                 Login
               </Text>
             )}
@@ -175,6 +232,23 @@ const Login = () => {
               </Pressable>
             </Link>
           </View>
+
+          {/* Divider */}
+          <View className="flex-row items-center my-6">
+            <Divider style={{ flex: 1 }} />
+            <Text
+              className="mx-3 text-sm text-gray-500 dark:text-gray-400"
+              style={{ fontWeight: "500" }}
+            >
+              OR
+            </Text>
+            <Divider style={{ flex: 1 }} />
+          </View>
+
+          <View className="mb-6">
+            <GoogleLoginButton />
+          </View>
+
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

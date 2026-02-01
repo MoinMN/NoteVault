@@ -2,9 +2,9 @@
   "expo": {
     "name": "NoteVault",
     "slug": "notevault",
-    "version": "26.1.22",
+    "version": "26.2.1",
     "orientation": "portrait",
-    "icon": "./assets/images/bg_icon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "notevault",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -36,10 +36,8 @@
         }
       ],
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-foreground.png",
-        "monochromeImage": "./assets/images/android-icon-foreground.png"
+        "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -50,7 +48,8 @@
       "favicon": "./assets/images/favicon.ico"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
