@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
             <p className="text-gray-300 mb-3">© 2026 PixelMint</p>
             <p className="text-gray-300 mb-3">All rights reserved</p>
             <div className="inline-block px-4 py-2 bg-purple-600 bg-opacity-30 rounded-lg border border-purple-400 border-opacity-30">
-              <p className="text-sm text-purple-200">Version 26.1.22</p>
+              <p className="text-sm text-purple-200">Version 26.2.1</p>
             </div>
           </div>
         </div>

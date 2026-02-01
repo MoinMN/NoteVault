@@ -39,6 +39,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <p className="text-gray-600 mb-3 text-base sm:text-lg leading-relaxed">We collect the following information from users:</p>
             <ul className="space-y-1">
               <ListItem>Name, email, and encrypted password</ListItem>
+              <ListItem>Email and profile image (when signing in with Google)</ListItem>
               <ListItem>Notes and todo items created by the user</ListItem>
             </ul>
           </Section>
