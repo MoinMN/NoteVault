@@ -1,7 +1,7 @@
 import { useTheme } from "@/context/ThemeContext";
 import { useInternet } from "@/context/InternetProvider";
 import NoInternetScreen from "@/components/NoInternetScreen";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Slot } from "expo-router";
 import { useAlert } from "@/context/AlertContext";
@@ -17,9 +17,15 @@ const RootSlot = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-black">
+    <SafeAreaView
+      style={{ flex: 1 }}
+      edges={["top", "bottom"]}
+      className="bg-white dark:bg-black"
+    >
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
-      <Slot screenOptions={{ headerShown: false }} />
+
+      {/* Expo Router renders screens here */}
+      <Slot />
 
       {alert && (
         <Alert
@@ -32,4 +38,10 @@ const RootSlot = () => {
   );
 };
 
-export default RootSlot;
+export default function RootLayout() {
+  return (
+    <SafeAreaProvider>
+      <RootSlot />
+    </SafeAreaProvider>
+  );
+}
