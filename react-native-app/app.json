@@ -11,6 +11,15 @@
     "platforms": [
       "android"
     ],
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff",
+      "dark": {
+        "image": "./assets/images/icon.png",
+        "backgroundColor": "#000000"
+      }
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "notevault",
@@ -19,6 +28,7 @@
       }
     },
     "android": {
+      "package": "com.im_moin.notevault",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#FFFFFF"
@@ -40,8 +50,7 @@
         }
       ],
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.im_moin.notevault"
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
