@@ -173,6 +173,7 @@ export default function Register() {
                 setFormData((prev) => ({ ...prev, name: text }))
               }
               contentStyle={{ fontSize: 14 }}
+              disabled={loading}
               placeholder="Enter your name"
               outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
               activeOutlineColor="#2563EB"
@@ -195,6 +196,7 @@ export default function Register() {
               }
               contentStyle={{ fontSize: 14 }}
               autoCapitalize="none"
+              disabled={loading}
               keyboardType="email-address"
               placeholder="Enter your email"
               outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
@@ -217,6 +219,7 @@ export default function Register() {
                 setFormData((prev) => ({ ...prev, password: text }))
               }
               contentStyle={{ fontSize: 14 }}
+              disabled={loading}
               secureTextEntry={!showPassword}
               placeholder="Enter your password"
               outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
@@ -247,6 +250,7 @@ export default function Register() {
                 setFormData((prev) => ({ ...prev, confirmPassword: text }))
               }
               contentStyle={{ fontSize: 14 }}
+              disabled={loading}
               secureTextEntry={!showConfirmPassword}
               placeholder="Confirm your password"
               outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
@@ -346,7 +350,10 @@ export default function Register() {
           </View>
 
           <View className="mb-7">
-            <GoogleLoginButton />
+            <GoogleLoginButton
+              loading={loading}
+              setLoading={setLoading}
+            />
           </View>
 
         </ScrollView>

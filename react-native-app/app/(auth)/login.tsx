@@ -134,6 +134,7 @@ const Login = () => {
                 setFormData((prev) => ({ ...prev, email: text }))
               }
               contentStyle={{ fontSize: 14 }}
+              disabled={loading}
               autoCapitalize="none"
               keyboardType="email-address"
               placeholder="Enter your email"
@@ -157,6 +158,7 @@ const Login = () => {
                 setFormData((prev) => ({ ...prev, password: text }))
               }
               contentStyle={{ fontSize: 14 }}
+              disabled={loading}
               secureTextEntry={!showPassword}
               placeholder="Enter your password"
               outlineColor={theme === "dark" ? "#374151" : "#D1D5DB"}
@@ -246,7 +248,10 @@ const Login = () => {
           </View>
 
           <View className="mb-6">
-            <GoogleLoginButton />
+            <GoogleLoginButton
+              loading={loading}
+              setLoading={setLoading}
+            />
           </View>
 
         </ScrollView>

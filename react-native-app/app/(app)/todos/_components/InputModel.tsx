@@ -90,6 +90,9 @@ const ToDoModel = ({
             placeholderTextColor="#9CA3AF"
             value={newTodo}
             onChangeText={setNewTodo}
+            onSubmitEditing={() => handleAddNewTodo(newTodo)}
+            returnKeyType="done"
+            blurOnSubmit={false}
             className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-base text-black dark:text-white"
           />
         </View>

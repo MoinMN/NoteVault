@@ -9,6 +9,8 @@ import { useRouter } from "expo-router";
 type AdminMenuProps = {
   showMenu: boolean;
   setShowMenu: Dispatch<SetStateAction<boolean>>;
+  showSeachBar: boolean;
+  setShowSeachBar: Dispatch<SetStateAction<boolean>>;
   editMode: boolean;
   setEditMode: Dispatch<SetStateAction<boolean>>;
   onRefresh: () => void;
@@ -18,6 +20,8 @@ type AdminMenuProps = {
 const AdminMenu = ({
   showMenu,
   setShowMenu,
+  showSeachBar,
+  setShowSeachBar,
   editMode,
   setEditMode,
   onRefresh,
@@ -76,6 +80,18 @@ const AdminMenu = ({
           titleStyle={{ color: textColor, fontSize: 14 }}
           onPress={() => {
             setEditMode((p) => !p);
+            setShowMenu(false);
+          }}
+        />
+
+        <Divider />
+
+        {/* search bar */}
+        <Menu.Item
+          title={showSeachBar ? "Close Search" : "Search"}
+          titleStyle={{ color: textColor, fontSize: 14 }}
+          onPress={() => {
+            setShowSeachBar((prev) => !prev);
             setShowMenu(false);
           }}
         />

@@ -9,6 +9,7 @@ import AdminUsersScreen from "./_components/AdminUsersScreen";
 import EditHead from "@/components/EditHead";
 import ConfirmationModal from "@/components/ui/Modal"; // <--- import
 import Loader from "@/components/ui/Loader";
+import SearchBar from "./_components/SearchBar";
 
 export default function Admin() {
   const { setAlert } = useAlert();
@@ -17,8 +18,11 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [showSeachBar, setShowSeachBar] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const [showConfirm, setShowConfirm] = useState(false); // <--- confirmation state
+  const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleBulkDelete = () => {
     handleDeleteUsers(selectedUsers);
@@ -42,6 +46,7 @@ export default function Admin() {
 
       if (res.data?.success) {
         setUsers(res.data.users);
+        setFilteredUsers(res.data.users);
       }
     } catch (err) {
       ErrorCatch(err, setAlert);
@@ -69,10 +74,30 @@ export default function Admin() {
     }
   };
 
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredUsers(users);
+      return;
+    }
+
+    const query = searchQuery.toLowerCase().trim();
+    const filtered = users.filter((user) => {
+      const name = user.name?.toLowerCase() || "";
+      const email = user.email?.toLowerCase() || "";
+
+      return (
+        name.includes(query) ||
+        email.includes(query)
+      );
+    });
+
+    setFilteredUsers(filtered);
+  }, [searchQuery, users]);
+
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-black px-4">
       <Header
-        count={users.length}
+        count={filteredUsers.length}
         headTitle="Admin"
         subHeadLine="users"
         showMenu={showMenu}
@@ -81,6 +106,8 @@ export default function Admin() {
           <AdminMenu
             editMode={editMode}
             showMenu={showMenu}
+            showSeachBar={showSeachBar}
+            setShowSeachBar={setShowSeachBar}
             setEditMode={setEditMode}
             setShowMenu={setShowMenu}
             onRefresh={fetchUsers}
@@ -101,9 +128,18 @@ export default function Admin() {
         />
       )}
 
+      {/* Search Bar */}
+      {showSeachBar && (
+        <SearchBar
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Search by name or email..."
+        />
+      )}
+
       {!loading && (
         <AdminUsersScreen
-          users={users}
+          users={filteredUsers}
           editMode={editMode}
           handleDeleteUsers={handleDeleteUsers}
           selectedUsers={selectedUsers}

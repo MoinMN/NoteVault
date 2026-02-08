@@ -5,14 +5,16 @@ import api from "@/lib/api";
 import { useUser } from "@/context/AuthContext";
 import { useAlert } from "@/context/AlertContext";
 import { useRouter } from "expo-router";
-import { useState } from "react";
 import ErrorCatch from "@/lib/error-catch";
 
-export default function GoogleLoginButton() {
+export default function GoogleLoginButton({
+  loading, setLoading
+}: {
+  loading: boolean, setLoading: (v: boolean) => void
+}) {
   const router = useRouter();
   const { refreshAuth } = useUser();
   const { setAlert } = useAlert();
-  const [loading, setLoading] = useState(false);
 
   const handleGoogleSignIn = async () => {
     if (loading) return;

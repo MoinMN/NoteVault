@@ -82,40 +82,60 @@ export default function UserCard({
   return (
     <View className="bg-gray-100 dark:bg-[#1C1C1E] px-4 py-3 rounded-xl mb-3">
       <View className="flex-row justify-between items-center">
-        <View className="flex-row items-center flex-1">
+        <View className="flex-row items-center flex-1 mr-2">
           {/* Avatar from Paper */}
-          <Avatar.Text
-            size={48}
-            label={user.name?.[0]?.toUpperCase() || "U"}
-            color="#FFFFFF"
-            style={{
-              backgroundColor: getAvatarColor(user.name),
-              marginRight: 12
-            }}
-            labelStyle={{
-              fontSize: 18,
-              fontWeight: "bold"
-            }}
-          />
+          {user?.profileImage ? (
+            <Avatar.Image
+              size={40}
+              source={{ uri: user.profileImage }}
+              style={{
+                marginRight: 10
+              }}
+            />
+          ) : (
+            <Avatar.Text
+              size={40}
+              label={user.name?.[0]?.toUpperCase() || "MMN"}
+              style={{
+                backgroundColor: getAvatarColor(user?.name || "MMN"),
+                marginRight: 10
+              }}
+              color="#FFFFFF"
+              labelStyle={{
+                fontSize: 16,
+                fontWeight: "bold"
+              }}
+            />
+          )}
 
           {/* Info */}
-          <View className="flex-1">
-            <View className="flex-row items-center mb-1">
-              <Text className="text-base font-semibold text-gray-900 dark:text-white mr-2">
+          <View className="flex-1 min-w-0">
+            <View className="flex-row items-center mb-0.5">
+              <Text
+                className="text-sm font-semibold text-gray-900 dark:text-white mr-1.5"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
                 {user.name}
               </Text>
               {/* Role Badge */}
-              <View className={`px-2.5 py-1 rounded-full ${roleStyle.bg}`}>
-                <Text className={`text-xs font-medium ${roleStyle.text}`}>
-                  {user.role.toUpperCase()}
-                </Text>
-              </View>
+              {user.role === "admin" &&
+                <View className={`px-2 py-0.5 rounded-full ${roleStyle.bg}`}>
+                  <Text className={`text-[10px] font-medium ${roleStyle.text}`}>
+                    {user.role.toUpperCase()}
+                  </Text>
+                </View>
+              }
             </View>
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
+            <Text
+              className="text-xs text-gray-500 dark:text-gray-400"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
               {user.email}
             </Text>
             {user.createdAt && (
-              <Text className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <Text className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">
                 Joined {formatDate(user.createdAt)}
               </Text>
             )}
@@ -132,9 +152,9 @@ export default function UserCard({
         ) : (
           <Pressable
             onPress={() => confirmDelete([user._id])}
-            className="bg-red-500 px-3 py-1 rounded-md"
+            className="bg-red-500 px-2.5 py-1 rounded-md"
           >
-            <Text className="text-white text-sm font-semibold">Delete</Text>
+            <Text className="text-white text-xs font-semibold">Delete</Text>
           </Pressable>
         )}
       </View>
