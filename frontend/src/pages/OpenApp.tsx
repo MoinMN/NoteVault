@@ -2,17 +2,18 @@ import { useEffect } from "react";
 
 const OpenAppPage = () => {
   useEffect(() => {
-    const appUrl = "https://notevault.moinnaik.bio/open";
+    const appScheme = "notevault://open";
     const playStoreUrl =
       "https://play.google.com/store/apps/details?id=com.im_moin.notevault";
 
-    const timeout = setTimeout(() => {
+    const timer = setTimeout(() => {
       window.location.href = playStoreUrl;
     }, 2000);
 
-    window.location.href = appUrl;
+    // Try opening the app
+    window.location.href = appScheme;
 
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
