@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
     setShowNotification(true);
 
     window.open(
-      `https://github.com/MoinMN/NoteVault/releases/download/v26.1.22/NoteVault.apk`,
+      `https://github.com/MoinMN/NoteVault/releases/download/v26.2.8/NoteVault.apk`,
       "_blank",
       "noopener,noreferrer"
     );

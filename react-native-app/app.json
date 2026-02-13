@@ -30,7 +30,7 @@
     "android": {
       "package": "com.im_moin.notevault",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
+        "foregroundImage": "./assets/images/bg_icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "intentFilters": [

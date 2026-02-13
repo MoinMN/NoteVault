@@ -14,6 +14,12 @@ Visit our promotional website and explore NoteVault online:
 
 ## 📱 Download the App
 
+### Google Play Store
+
+Download NoteVault from the Google Play Store:
+
+**[📲 Get it on Google Play](https://play.google.com/store/apps/details?id=com.im_moin.notevault)**
+
 ### Android APK
 
 Download the latest Android build directly:
@@ -194,7 +200,7 @@ NoteVault/
 3. Update the `lib/api.tsx` file in the `react-native-app` directory with your backend URL:
 
    ```typescript
-   baseURL: "http://localhost:5000"
+   baseURL: "http://localhost:5000";
    ```
 
 4. Start the Expo development server:
@@ -360,7 +366,7 @@ See the [LICENSE](LICENSE) file for full terms.
 
 For questions or feedback, feel free to reach out:
 
-- **Email:** crichit45@gmail.com
+- **Email:** pixelmint.mail@gmail.com
 - **GitHub:** [MoinMN](https://github.com/MoinMN)
 - **Website:** [notevault.moinnaik.bio](https://notevault.moinnaik.bio)
 
