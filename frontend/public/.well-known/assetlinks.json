@@ -7,7 +7,8 @@
       "namespace": "android_app",
       "package_name": "com.im_moin.notevault",
       "sha256_cert_fingerprints": [
-        "3A:83:36:5F:3E:9C:C5:79:D6:96:E6:13:69:C2:BF:5F:B2:6B:D8:34:35:BE:02:9C:0A:D4:31:44:E7:65:F4:2C"
+        "3A:83:36:5F:3E:9C:C5:79:D6:96:E6:13:69:C2:BF:5F:B2:6B:D8:34:35:BE:02:9C:0A:D4:31:44:E7:65:F4:2C",
+        "38:CD:39:2E:21:F8:A5:43:3A:96:78:44:13:60:57:C4:14:F1:58:B4:3B:54:F7:FB:F8:CC:78:D5:37:E2:AE:8B"
       ]
     }
   }
