@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const OpenAppPage = () => {
   useEffect(() => {
-    const appScheme = "notevault://open";
+    const appScheme = "notevault://";
     const playStoreUrl =
       "https://play.google.com/store/apps/details?id=com.im_moin.notevault";
 
