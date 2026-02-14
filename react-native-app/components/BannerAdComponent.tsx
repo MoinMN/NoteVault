@@ -17,7 +17,7 @@ export default function BannerAdComponent() {
         unitId={adUnitId}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         requestOptions={{
-          requestNonPersonalizedAdsOnly: true,
+          requestNonPersonalizedAdsOnly: false,
         }}
       />
     </View>

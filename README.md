@@ -1,6 +1,6 @@
 # NoteVault
 
-NoteVault is a cross-platform mobile application built with **React Native (Expo)** and **Node.js (TypeScript)**. It helps users **store notes** and **manage to-do lists** efficiently. The app provides a smooth, intuitive interface for note-taking and task management, synced with a backend API.
+NoteVault is a cross-platform mobile application built with **React Native (Expo)** and **Node.js (TypeScript)**. It helps users **store notes** and **manage to-do lists** efficiently with **end-to-end encryption**. The app provides a smooth, intuitive interface for note-taking and task management, synced with a backend API.
 
 ---
 
@@ -29,14 +29,14 @@ Download the latest Android build directly:
 Or scan this QR code to download:
 
 <p align="center">
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/MoinMN/NoteVault/raw/main/backend/public/apk/NoteVault.apk" alt="Download APK QR Code" width="200"/>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/MoinMN/NoteVault/releases/download/v26.2.8/NoteVault.apk" alt="Download APK QR Code" width="200"/>
 </p>
 
 ### Expo Build
 
 View the build on Expo:
 
-**[🔗 Expo Build Link](https://expo.dev/accounts/im_moin/projects/notevault/builds/df18b7fb-a95b-4888-9113-306cfea2425f)**
+**[🔗 Expo Build Link](https://expo.dev/accounts/im_moin/projects/notevault/builds)**
 
 ---
 
@@ -62,6 +62,7 @@ View the build on Expo:
 ## ✨ Features
 
 - 🔐 User authentication (signup/login)
+- 🔒 **End-to-end encryption for notes and todos**
 - 📝 Create, update, delete notes
 - ✅ Add, update, delete to-do items
 - ✔️ Mark to-dos as completed
@@ -72,6 +73,7 @@ View the build on Expo:
 - 🔍 Search functionality for notes
 - 📌 Pin important notes
 - 📊 Multi-color avatars for users
+- 📢 **In-app ads to support ongoing development**
 
 ---
 
@@ -362,6 +364,17 @@ See the [LICENSE](LICENSE) file for full terms.
 
 ---
 
+## 🔐 Security & Privacy
+
+NoteVault is built with **security** and **privacy** as top priorities:
+
+- **End-to-end encryption** - All notes and todos are encrypted before being stored
+- **Secure storage** - Your data is protected with industry-standard encryption
+- **Privacy-focused** - We don't collect or share your personal data
+- **Ad-supported** - In-app ads help us maintain and improve the app while keeping your data private
+
+---
+
 ## 📧 Contact
 
 For questions or feedback, feel free to reach out:
@@ -380,4 +393,4 @@ For questions or feedback, feel free to reach out:
 
 ---
 
-**NoteVault** – Keep your notes and to-dos organized, always. ✨
+**NoteVault** – Keep your notes and to-dos organized and secure, always. 🔒✨
