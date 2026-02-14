@@ -8,6 +8,7 @@ import { useAlert } from "@/context/AlertContext";
 import Alert from "./ui/Alert";
 import { useEffect } from "react";
 import { configureGoogleSignIn } from "@/lib/GoogleSignIn";
+import BannerAdComponent from "./BannerAdComponent";
 
 const RootSlot = () => {
   const { theme } = useTheme() as any;
@@ -29,7 +30,6 @@ const RootSlot = () => {
       className="bg-white dark:bg-black"
     >
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
-
       {/* Expo Router renders screens here */}
       <Slot />
 
@@ -40,6 +40,7 @@ const RootSlot = () => {
           onClose={() => setAlert(null)}
         />
       )}
+      <BannerAdComponent />
     </SafeAreaView>
   );
 };

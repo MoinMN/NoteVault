@@ -149,7 +149,7 @@ const Settings = () => {
 
           <View className="bg-gray-100 dark:bg-[#1C1C1E] px-4 py-3 rounded-xl mb-2 flex-row justify-between items-center">
             <Text className="text-black dark:text-white">Version</Text>
-            <Text className="text-gray-500 dark:text-gray-400">26.2.1</Text>
+            <Text className="text-gray-500 dark:text-gray-400">26.2.14</Text>
           </View>
 
           <Row text="About Notes" redirect="about" />

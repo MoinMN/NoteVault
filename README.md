@@ -24,7 +24,7 @@ Download NoteVault from the Google Play Store:
 
 Download the latest Android build directly:
 
-**[📥 Download NoteVault.apk](https://github.com/MoinMN/NoteVault/raw/main/backend/public/apk/NoteVault.apk)**
+**[📥 Download NoteVault.apk](https://github.com/MoinMN/NoteVault/releases/download/v26.2.14/NoteVault.apk)**
 
 Or scan this QR code to download:
 

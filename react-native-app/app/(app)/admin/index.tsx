@@ -134,6 +134,7 @@ export default function Admin() {
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholder="Search by name or email..."
+          onClose={() => setShowSeachBar(false)}
         />
       )}
 

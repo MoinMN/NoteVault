@@ -2,7 +2,7 @@
   "expo": {
     "name": "NoteVault",
     "slug": "notevault",
-    "version": "26.2.8",
+    "version": "26.2.14",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "notevault",
@@ -59,7 +59,14 @@
     },
     "plugins": [
       "expo-router",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3705984726281758~8388899826",
+          "iosAppId": "ca-app-pub-3705984726281758~8388899826"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

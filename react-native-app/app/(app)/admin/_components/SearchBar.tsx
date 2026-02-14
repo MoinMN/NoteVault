@@ -6,12 +6,14 @@ interface SearchBarProps {
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
+  onClose: () => void;
 }
 
 export default function SearchBar({
   value,
   onChangeText,
   placeholder = "Search...",
+  onClose
 }: SearchBarProps) {
   const { theme } = useTheme() as any;
   const isDark = theme === "dark";
@@ -24,6 +26,7 @@ export default function SearchBar({
           size={20}
           color={isDark ? "#9CA3AF" : "#6B7280"}
         />
+
         <TextInput
           value={value}
           onChangeText={onChangeText}
@@ -33,12 +36,20 @@ export default function SearchBar({
           autoCapitalize="none"
           autoCorrect={false}
         />
-        {value.length > 0 && (
+
+        {value.length > 0 ? (
           <Ionicons
             name="close-circle"
             size={20}
             color={isDark ? "#9CA3AF" : "#6B7280"}
             onPress={() => onChangeText("")}
+          />
+        ) : (
+          <Ionicons
+            name="close"
+            size={20}
+            color={isDark ? "#9CA3AF" : "#6B7280"}
+            onPress={() => onClose()}
           />
         )}
       </View>

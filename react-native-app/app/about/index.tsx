@@ -42,7 +42,7 @@ const About = () => {
           Version History
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          Version 26.2.1 (Feb 2026): Initial release with notes, todos, search, sharing, and notifications.
+          Version 26.2.14 (Feb 2026): Initial release with notes, todos, search, sharing, and notifications.
         </Text>
 
         <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">

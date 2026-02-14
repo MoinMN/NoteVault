@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text } from "react-native";
 import { Checkbox } from "expo-checkbox";
 import { useState } from "react";
 import ConfirmationModal from "@/components/ui/Modal";
@@ -14,11 +14,6 @@ export default function UserCard({
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const confirmDelete = (ids: string[]) => {
-    setSelectedIds(ids);
-    setModalVisible(true);
-  };
-
   const onDeleteConfirmed = () => {
     handleDeleteUsers(selectedIds);
     setSelectedIds([]);
@@ -26,21 +21,32 @@ export default function UserCard({
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    const inputDate = new Date(dateString);
     const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // Remove time (set both to midnight)
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const target = new Date(
+      inputDate.getFullYear(),
+      inputDate.getMonth(),
+      inputDate.getDate()
+    );
+
+    const diffDays = Math.floor(
+      (today.getTime() - target.getTime()) / (1000 * 60 * 60 * 24)
+    );
 
     if (diffDays === 0) return "Today";
     if (diffDays === 1) return "Yesterday";
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+    if (diffDays < 30)
+      return `${Math.floor(diffDays / 7)} week${Math.floor(diffDays / 7) > 1 ? "s" : ""} ago`;
 
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
+    // After 30 days → show exact date
+    return target.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
   };
 
@@ -143,19 +149,12 @@ export default function UserCard({
         </View>
 
         {/* Right Action */}
-        {editMode ? (
+        {editMode && (
           <Checkbox
             value={selected}
             onValueChange={() => onToggleSelect(user._id)}
             color={selected ? "#2563EB" : undefined}
           />
-        ) : (
-          <Pressable
-            onPress={() => confirmDelete([user._id])}
-            className="bg-red-500 px-2.5 py-1 rounded-md"
-          >
-            <Text className="text-white text-xs font-semibold">Delete</Text>
-          </Pressable>
         )}
       </View>
 

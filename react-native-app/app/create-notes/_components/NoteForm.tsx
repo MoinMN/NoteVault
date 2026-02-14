@@ -151,7 +151,7 @@ export default function NoteForm({
     // Save if there are changes
     if (hasChanges() && (title.trim() || content.trim())) {
       await autoSaveNote(true);
-    }
+    };
 
     router.replace("/(app)/notes");
   };
