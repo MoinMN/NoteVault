@@ -29,8 +29,8 @@ export const fetchTodos = createAsyncThunk(
   "todo/fetchTodos",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetchTodosApi();
-      return res.data.todos;
+      const todos = await fetchTodosApi();
+      return todos;
     } catch (error: any) {
       return rejectWithValue(error);
     }
@@ -41,8 +41,8 @@ export const createTodo = createAsyncThunk(
   "todo/createTodo",
   async (text: string, { rejectWithValue }) => {
     try {
-      const res = await createTodoApi(text);
-      return res.data.todo;
+      const todos = await createTodoApi(text);
+      return todos;
     } catch (error: any) {
       return rejectWithValue(error);
     }

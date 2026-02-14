@@ -29,10 +29,13 @@ const About = () => {
           • Organize todos and track tasks.
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          • Share notes with other apps.
+          • End-to-end encryption for both notes and todos to keep your data private.
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          • Search notes for quick access.
+          • Share notes with other apps safely.
+        </Text>
+        <Text className="text-base text-black dark:text-white mb-2">
+          • Search notes and todos for quick access.
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
           • Push notifications to remind you about important tasks.
@@ -42,7 +45,7 @@ const About = () => {
           Version History
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          Version 26.2.14 (Feb 2026): Initial release with notes, todos, search, sharing, and notifications.
+          Version 26.2.14 (Feb 2026): Initial release with notes, todos, search, sharing, notifications, and encrypted data storage.
         </Text>
 
         <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">

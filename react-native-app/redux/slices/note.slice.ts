@@ -24,8 +24,8 @@ export const fetchNotes = createAsyncThunk(
   "notes/fetchNotes",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetchNotesApi();
-      return res.data.notes;
+      const notes = await fetchNotesApi();
+      return notes;
     } catch (error: any) {
       return rejectWithValue(error);
     }
@@ -37,8 +37,8 @@ export const saveNote = createAsyncThunk(
   "notes/saveNote",
   async (payload: { id?: string; title: string; content: string }, { rejectWithValue }) => {
     try {
-      const res = await saveNoteApi(payload);
-      return res.data.note;
+      const notes = await saveNoteApi(payload);
+      return notes;
     } catch (error: any) {
       return rejectWithValue(error);
     }

@@ -36,6 +36,17 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+
+    // Encryption fields
+    encryptedMasterKey: {
+      type: String,
+      default: null, // store AES-encrypted master key
+    },
+
+    encryptionSalt: {
+      type: String,
+      default: null, // optional salt if needed
+    },
   },
   { timestamps: true }
 );

@@ -78,13 +78,14 @@ const NoteEditor = ({
 
     setContent(newText);
 
-    setTimeout(() => {
+    // Use requestAnimationFrame instead of setTimeout for better timing
+    requestAnimationFrame(() => {
       contentRef.current?.focus();
       const newPosition = start + 2;
       contentRef.current?.setNativeProps({
         selection: { start: newPosition, end: newPosition },
       });
-    }, 10);
+    });
   };
 
   // Handle numbered list insertion
@@ -103,13 +104,13 @@ const NoteEditor = ({
 
     setContent(newText);
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       contentRef.current?.focus();
       const newPosition = start + `${nextNumber}. `.length;
       contentRef.current?.setNativeProps({
         selection: { start: newPosition, end: newPosition },
       });
-    }, 10);
+    });
   };
 
   // Handle checkbox insertion
@@ -124,13 +125,13 @@ const NoteEditor = ({
 
     setContent(newText);
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       contentRef.current?.focus();
       const newPosition = start + 2;
       contentRef.current?.setNativeProps({
         selection: { start: newPosition, end: newPosition },
       });
-    }, 10);
+    });
   };
 
   // Handle text change with auto-continuation
@@ -274,10 +275,11 @@ const NoteEditor = ({
             showsHorizontalScrollIndicator={false}
             className="px-4 py-2.5"
             contentContainerStyle={{ gap: 6 }}
+            keyboardShouldPersistTaps="always"
           >
-            <ToolButton onPress={insertBullet} icon="•" />
-            <ToolButton onPress={insertNumberedList} icon="1." />
-            <ToolButton onPress={insertCheckbox} icon="☐" />
+            <ToolButton onPress={() => insertBullet()} icon="•" />
+            <ToolButton onPress={() => insertNumberedList()} icon="1." />
+            <ToolButton onPress={() => insertCheckbox()} icon="☐" />
           </ScrollView>
         </View>
 

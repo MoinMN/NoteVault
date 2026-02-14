@@ -64,7 +64,7 @@ const ToDoScreen = (
         )}
 
         {/* Pending Todos */}
-        {todos.filter(item => !item.completed).map(item => (
+        {todos?.filter(item => !item.completed).map(item => (
           <SelectableItem
             key={item._id}
             id={item._id}
@@ -79,12 +79,12 @@ const ToDoScreen = (
         ))}
 
         {/* Completed Todos */}
-        {todos.some(item => item.completed) && !hideCompletedTodos && (
+        {todos?.some(item => item.completed) && !hideCompletedTodos && (
           <View className="mt-6">
             <Text className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               Completed
             </Text>
-            {todos.filter(item => item.completed).map(item => (
+            {todos?.filter(item => item.completed).map(item => (
               <SelectableItem
                 key={item._id}
                 id={item._id}

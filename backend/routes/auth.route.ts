@@ -11,6 +11,7 @@ import SaveOtp from "../controller/auth/saveOtp.js";
 import GoogleLogin from "../controller/auth/google.js";
 import VerifyForgotOtp from "../controller/auth/forgot-password/verifyOtp.js";
 import ResetForgotPassword from "../controller/auth/forgot-password/reset.js";
+import GetMasterKey from "../controller/auth/master-key.js";
 
 router.get("/me", authMiddleware, AuthMe);
 router.post("/login", UserLogin);
@@ -20,5 +21,6 @@ router.get("/mail/exist", MailExist);
 router.patch("/mail/otp", SaveOtp);
 router.post("/forgot-password/verify-otp", VerifyForgotOtp);
 router.post("/forgot-password/reset", ResetForgotPassword);
+router.get("/master-key", authMiddleware, GetMasterKey);
 
 export default router;

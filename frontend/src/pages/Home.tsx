@@ -3,7 +3,7 @@ import {
   FileText, CheckSquare,
   Search, Share2, Moon,
   Cloud, Smartphone, Download,
-  Store, Zap, Shield
+  Store, Zap, Lock
 } from 'lucide-react';
 import Footer from '../components/Footer';
 import AppNotFoundModal from '../components/AppNotFound';
@@ -50,7 +50,7 @@ const HomePage: React.FC = () => {
   };
 
   const features = [
-    { icon: Shield, title: 'Secure & Private', desc: 'Your notes are encrypted and stored securely. Only you have access to your data.', color: 'from-blue-500 to-cyan-500' },
+    { icon: Lock, title: 'End-to-End Encrypt', desc: 'Your notes are encrypted and stored securely. Only you have access to your data.', color: 'from-blue-500 to-cyan-500' },
     { icon: CheckSquare, title: 'Smart Todos', desc: 'Create, organize, and track your tasks with ease. Never miss a deadline again.', color: 'from-green-500 to-emerald-500' },
     { icon: Search, title: 'Quick Search', desc: 'Find any note instantly with our powerful search feature.', color: 'from-yellow-500 to-orange-500' },
     { icon: Share2, title: 'Easy Sharing', desc: 'Share your notes with other apps seamlessly.', color: 'from-pink-500 to-rose-500' },

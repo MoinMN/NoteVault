@@ -9,6 +9,7 @@ import { View, PanResponder } from 'react-native';
 
 const Tabs = () => {
   const { theme } = useTheme() as any;
+
   const [index, setIndex] = useState(0);
 
   const isDark = theme === "dark";
@@ -89,11 +90,13 @@ const Tabs = () => {
           borderTopLeftRadius: 14,
           borderTopRightRadius: 14,
           elevation: 8,
+          paddingBottom: 0,
         }}
         activeIndicatorStyle={{
           backgroundColor: isDark ? "#2e4689a0" : "#DBEAFE",
         }}
-        shifting={true}
+        shifting={false}
+        safeAreaInsets={{ bottom: 0 }}
       />
     </View>
   );

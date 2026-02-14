@@ -57,14 +57,17 @@ const AboutPage: React.FC = () => {
                 <ListItem>Organize todos and track tasks</ListItem>
                 <ListItem>Share notes with other apps</ListItem>
                 <ListItem>Search notes for quick access</ListItem>
+                <ListItem>End-to-end encrypted notes & todos</ListItem>
                 <ListItem>Push notifications to remind you about important tasks</ListItem>
               </ul>
             </Section>
 
             <Section title="📅 Version History">
               <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                <strong>Version 1.0 (January 2026):</strong> Initial release with notes, todos,
-                search, sharing, and notifications.
+                <strong>Version 26.1.22 (January 2026):</strong> Initial release for closed testing.
+              </p>
+              <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+                <strong>Version 26.2.14 (February 2026):</strong> Stable release on Google Play Store.
               </p>
             </Section>
 

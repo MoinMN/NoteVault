@@ -38,7 +38,8 @@ const TermsPage: React.FC = () => {
             <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
               Welcome to <strong className="text-purple-600">NoteVault</strong>! These Terms and Conditions govern your use
               of our mobile application and services. By accessing or using NoteVault, you agree
-              to be bound by these terms.
+              to be bound by these terms. NoteVault includes ads to support app development,
+              and all notes and todos are encrypted end-to-end for your privacy.
             </p>
           </div>
 
@@ -75,11 +76,12 @@ const TermsPage: React.FC = () => {
               Your use of NoteVault is also governed by our{' '}
               <Link to="/privacy" className="text-blue-600 font-semibold border-b-2 border-transparent hover:border-blue-600 transition-colors">
                 Privacy Policy
-              </Link>. We collect and process your data as described in the Privacy Policy. Key points include:
+              </Link>. Key points include:
             </p>
             <ul className="space-y-1">
-              <ListItem>Your notes and todos are private and stored securely</ListItem>
+              <ListItem>Notes and todos are encrypted end-to-end and private</ListItem>
               <ListItem>Passwords are encrypted using industry-standard methods</ListItem>
+              <ListItem>Ads may be shown in the app but do not access your encrypted data</ListItem>
               <ListItem>We do not share your personal data with third parties</ListItem>
               <ListItem>You can delete your account and data at any time</ListItem>
             </ul>

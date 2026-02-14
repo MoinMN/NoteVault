@@ -40,32 +40,33 @@ const PrivacyPolicyPage: React.FC = () => {
             <ul className="space-y-1">
               <ListItem>Name, email, and encrypted password</ListItem>
               <ListItem>Email and profile image (when signing in with Google)</ListItem>
-              <ListItem>Notes and todo items created by the user</ListItem>
+              <ListItem>Notes and todo items created by the user (encrypted end-to-end)</ListItem>
             </ul>
           </Section>
 
           <Section title="2. How We Use Your Information">
             <ul className="space-y-1">
-              <ListItem>To provide and maintain your account and access to your notes</ListItem>
-              <ListItem>To allow note sharing via apps on your device</ListItem>
+              <ListItem>To provide and maintain your account and access to your notes and todos</ListItem>
+              <ListItem>To allow note and todo sharing via apps on your device</ListItem>
               <ListItem>To improve our services and app experience</ListItem>
+              <ListItem>To display ads in the app for supporting development (ads do not access personal content)</ListItem>
             </ul>
           </Section>
 
-          <Section title="3. Data Storage">
+          <Section title="3. Data Storage & Security">
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
               All your information is stored securely on our backend (MongoDB).
               <span className="bg-gradient-to-r from-yellow-200 to-yellow-300 px-2 py-1 rounded font-semibold mx-1">
-                Passwords are encrypted
+                Passwords and notes/todos are encrypted end-to-end
               </span>
-              , and notes are private to your account.
+              , ensuring only you can access your content. Ads shown in the app are fully isolated and do not access your encrypted data.
             </p>
           </Section>
 
           <Section title="4. Sharing Your Data">
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
               We <strong>do not share</strong> your personal data with any third parties.
-              You can choose to share notes using the in-app share feature.
+              You can choose to share notes or todos using the in-app share feature.
             </p>
           </Section>
 

@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
         <Text className="text-base text-black dark:text-white mb-3">
           Welcome to <Text className="font-bold">NoteVault</Text> (operated by PixelMint).
           Your privacy is important to us, and we are committed to protecting your
-          personal information.
+          personal information while providing a safe, feature-rich experience.
         </Text>
 
         {/* 1 */}
@@ -36,7 +36,10 @@ const PrivacyPolicy = () => {
           • Profile image (if provided via Google Sign-In).
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          • Notes and todo items created by the user.
+          • Notes and todo items created by the user, stored with end-to-end encryption.
+        </Text>
+        <Text className="text-base text-black dark:text-white mb-2">
+          • Device information for app functionality and analytics.
         </Text>
 
         {/* 2 */}
@@ -59,16 +62,16 @@ const PrivacyPolicy = () => {
           3. How We Use Your Information
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          • To create and manage your account.
-        </Text>
-        <Text className="text-base text-black dark:text-white mb-2">
-          • To securely authenticate users.
+          • To create and manage your account securely.
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
           • To display your profile name and profile image within the app.
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          • To provide access to notes, todos, and sharing features.
+          • To provide access to encrypted notes, todos, and sharing features.
+        </Text>
+        <Text className="text-base text-black dark:text-white mb-2">
+          • To deliver personalized ads while ensuring user privacy.
         </Text>
 
         {/* 4 */}
@@ -76,12 +79,11 @@ const PrivacyPolicy = () => {
           4. Data Storage & Security
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          All user data is stored securely on our backend (MongoDB).
+          All user data is stored securely on our backend (MongoDB) and notes/todos
+          are protected with end-to-end encryption.
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          Passwords are encrypted, authentication tokens are securely handled,
-          and profile images are stored only as references when fetched from
-          Google.
+          Passwords, authentication tokens, and sensitive information are securely encrypted.
         </Text>
 
         {/* 5 */}
@@ -92,43 +94,54 @@ const PrivacyPolicy = () => {
           We do not sell or share your personal data with third parties.
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          Notes may only be shared when you explicitly use the in-app sharing
-          feature.
+          Notes may only be shared when you explicitly use the in-app sharing feature.
         </Text>
 
         {/* 6 */}
         <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">
-          6. Notifications
+          6. Ads & Analytics
+        </Text>
+        <Text className="text-base text-black dark:text-white mb-2">
+          NoteVault may display ads to support app development. Ads are served
+          without accessing your encrypted notes or personal information.
+        </Text>
+        <Text className="text-base text-black dark:text-white mb-2">
+          We may use analytics to improve app performance and user experience.
+        </Text>
+
+        {/* 7 */}
+        <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">
+          7. Notifications
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
           NoteVault may send push notifications related to app activity.
           Notification permissions can be managed in device settings.
         </Text>
 
-        {/* 7 */}
+        {/* 8 */}
         <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">
-          7. Account Deletion
+          8. Account Deletion
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
           You can request deletion of your account and all associated data
           directly through the app.
         </Text>
 
-        {/* 8 */}
+        {/* 9 */}
         <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">
-          8. Children
+          9. Children
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
           There is no age restriction for using NoteVault. However, we encourage
           parental guidance for minors.
         </Text>
 
-        {/* 9 */}
+        {/* 10 */}
         <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">
-          9. Contact Us
+          10. Contact Us
         </Text>
         <Text className="text-base text-black dark:text-white mb-2">
-          For questions about privacy or support, use the in-app{" "}
+          For questions about privacy, security, or support, use the in-app{" "}
           <Text
             onPress={() => router.replace("/contact" as any)}
             className="font-bold text-[#2563EB]"

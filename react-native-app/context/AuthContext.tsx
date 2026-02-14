@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, ReactNode, useContext, useCallback } from "react";
 import * as SecureStore from "expo-secure-store";
 import api from "../lib/api";
+import { clearMasterKey } from "@/lib/encryption";
 
 export type User = {
   id: string;
@@ -85,6 +86,7 @@ export function AuthProvider({ children }: Props) {
 
   const logout = async () => {
     await SecureStore.deleteItemAsync(TOKEN_KEY);
+    await clearMasterKey();
     setUser(null);
   };
 
