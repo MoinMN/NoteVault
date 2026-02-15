@@ -84,12 +84,12 @@ const AboutPage: React.FC = () => {
               <p className="text-gray-600 text-base sm:text-lg mb-3 leading-relaxed">
                 Visit our website:{' '}
                 <a
-                  href="https://notevault.moinnaik.bio"
+                  href="https://notevault.in"
                   className="text-blue-600 font-semibold border-b-2 border-transparent hover:border-blue-600 transition-colors break-all"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  https://notevault.moinnaik.bio
+                  https://notevault.moinnaik.in
                 </a>
               </p>
               <p className="text-gray-600 text-base sm:text-lg leading-relaxed">

@@ -8,7 +8,7 @@ NoteVault is a cross-platform mobile application built with **React Native (Expo
 
 Visit our promotional website and explore NoteVault online:
 
-**[🌐 NoteVault Web App](https://notevault.moinnaik.bio)**
+**[🌐 NoteVault Web App](https://notevault.moinnaik.in)**
 
 ---
 
@@ -356,11 +356,11 @@ See the [LICENSE](LICENSE) file for full terms.
 
 ## 🔗 Important Links
 
-- **[🌐 NoteVault Web App](https://notevault.moinnaik.bio)** - Promotional website
-- **[📜 Terms of Service](https://notevault.moinnaik.bio/terms)** - Terms and conditions
-- **[🔒 Privacy Policy](https://notevault.moinnaik.bio/privacy)** - Privacy policy
-- **[ℹ️ About Us](https://notevault.moinnaik.bio/about)** - Learn more about NoteVault
-- **[📧 Contact](https://notevault.moinnaik.bio/contact)** - Get in touch with us
+- **[🌐 NoteVault Web App](https://notevault.moinnaik.in)** - Promotional website
+- **[📜 Terms of Service](https://notevault.moinnaik.in/terms)** - Terms and conditions
+- **[🔒 Privacy Policy](https://notevault.moinnaik.in/privacy)** - Privacy policy
+- **[ℹ️ About Us](https://notevault.moinnaik.in/about)** - Learn more about NoteVault
+- **[📧 Contact](https://notevault.moinnaik.in/contact)** - Get in touch with us
 
 ---
 
@@ -381,7 +381,7 @@ For questions or feedback, feel free to reach out:
 
 - **Email:** pixelmint.mail@gmail.com
 - **GitHub:** [MoinMN](https://github.com/MoinMN)
-- **Website:** [notevault.moinnaik.bio](https://notevault.moinnaik.bio)
+- **Website:** [notevault.moinnaik.in](https://notevault.moinnaik.in)
 
 ---
 

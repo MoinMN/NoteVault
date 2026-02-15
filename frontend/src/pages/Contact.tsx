@@ -50,7 +50,7 @@ const ContactPage: React.FC = () => {
     };
 
     try {
-      const response = await fetch('https://notevault-api.moinnaik.bio/support/public', {
+      const response = await fetch('https://notevault-api.moinnaik.in/support/public', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const ContactPage: React.FC = () => {
         setNotification({
           show: true,
           type: 'error',
-          message: 'Failed to send message. Please try again or email us directly at crichit45@gmail.com'
+          message: 'Failed to send message. Please try again or email us directly at pixelmint.mail@gmail.com'
         });
         setTimeout(() => setNotification({ show: false, type: 'success', message: '' }), 5000);
       }
@@ -79,7 +79,7 @@ const ContactPage: React.FC = () => {
       setNotification({
         show: true,
         type: 'error',
-        message: 'Network error. Please check your connection or email us at crichit45@gmail.com'
+        message: 'Network error. Please check your connection or email us at pixelmint.mail@gmail.com'
       });
       setTimeout(() => setNotification({ show: false, type: 'success', message: '' }), 5000);
     } finally {
@@ -125,10 +125,10 @@ const ContactPage: React.FC = () => {
                   <div className="min-w-0 flex-1">
                     <h3 className="text-xs sm:text-sm text-gray-500 mb-1">Email</h3>
                     <a
-                      href="mailto:crichit45@gmail.com"
+                      href="mailto:pixelmint.mail@gmail.com"
                       className="text-base sm:text-lg font-semibold text-purple-600 hover:underline break-all"
                     >
-                      crichit45@gmail.com
+                      pixelmint.mail@gmail.com
                     </a>
                   </div>
                 </div>
@@ -140,12 +140,12 @@ const ContactPage: React.FC = () => {
                   <div className="min-w-0 flex-1">
                     <h3 className="text-xs sm:text-sm text-gray-500 mb-1">Website</h3>
                     <a
-                      href="https://www.moinnaik.bio"
+                      href="https://www.moinnaik.in"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-base sm:text-lg font-semibold text-blue-600 hover:underline break-all"
                     >
-                      www.moinnaik.bio
+                      www.moinnaik.in
                     </a>
                   </div>
                 </div>

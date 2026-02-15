@@ -4,37 +4,37 @@
 >
 
   <url>
-    <loc>https://notevault.moinnaik.bio/</loc>
+    <loc>https://notevault.moinnaik.in/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://notevault.moinnaik.bio/about</loc>
+    <loc>https://notevault.moinnaik.in/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://notevault.moinnaik.bio/contact</loc>
+    <loc>https://notevault.moinnaik.in/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://notevault.moinnaik.bio/privacy</loc>
+    <loc>https://notevault.moinnaik.in/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <url>
-    <loc>https://notevault.moinnaik.bio/terms</loc>
+    <loc>https://notevault.moinnaik.in/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <url>
-    <loc>https://notevault.moinnaik.bio/open</loc>
+    <loc>https://notevault.moinnaik.in/open</loc>
   </url>
 
 </urlset>

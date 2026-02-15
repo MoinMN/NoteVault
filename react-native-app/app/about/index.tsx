@@ -58,8 +58,8 @@ const About = () => {
         <Text className="text-lg font-semibold text-black dark:text-white mt-4 mb-2">
           Contact & Website
         </Text>
-        <TouchableOpacity onPress={() => Linking.openURL("https://www.moinnaik.bio")}>
-          <Text className="text-[#2563EB] underline text-base mb-2">https://www.moinnaik.bio</Text>
+        <TouchableOpacity onPress={() => Linking.openURL("https://www.moinnaik.in")}>
+          <Text className="text-[#2563EB] underline text-base mb-2">https://www.moinnaik.in</Text>
         </TouchableOpacity>
 
         <Text className="text-base text-black dark:text-white mb-2">

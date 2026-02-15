@@ -40,7 +40,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "notevault.moinnaik.bio",
+              "host": "notevault.moinnaik.in",
               "pathPrefix": "/open"
             }
           ],

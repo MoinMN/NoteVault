@@ -163,7 +163,7 @@ export default function Maintenance() {
             activeOpacity={0.7}
           >
             <Feather name="mail" size={16} color="#64748b" />
-            <Text style={styles.contactText}>crichit45@gmail.com</Text>
+            <Text style={styles.contactText}>pixelmint.mail@gmail.com</Text>
           </TouchableOpacity>
         </View>
 

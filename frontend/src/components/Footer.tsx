@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <a
-                  href="https://www.moinnaik.bio"
+                  href="https://www.moinnaik.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-300 hover:text-white hover:translate-x-1 inline-block transition-all duration-300"

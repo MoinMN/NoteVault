@@ -174,8 +174,8 @@ const TermsPage: React.FC = () => {
                 Contact Us
               </Link>{' '}
               form or visit our website at{' '}
-              <a href="https://notevault.moinnaik.bio" className="text-blue-600 font-semibold border-b-2 border-transparent hover:border-blue-600 transition-colors break-all" target="_blank" rel="noopener noreferrer">
-                https://notevault.moinnaik.bio
+              <a href="https://notevault.moinnaik.in" className="text-blue-600 font-semibold border-b-2 border-transparent hover:border-blue-600 transition-colors break-all" target="_blank" rel="noopener noreferrer">
+                https://notevault.moinnaik.in
               </a>
             </p>
           </Section>

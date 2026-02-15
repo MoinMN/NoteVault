@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://notevault.moinnaik.bio/sitemap.xml
+Sitemap: https://notevault.moinnaik.in/sitemap.xml
